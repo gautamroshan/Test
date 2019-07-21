@@ -37,6 +37,24 @@ public class Flush {
 			System.out.println();
 		}
 		
+		System.out.println("Sorting...");
+		SortCard(player1);
+		SortCard(player2);
+		System.out.println("Player1");
+		for (int i=0; i<3; i++){
+			for (int j=0;j<2;j++){
+				System.out.print(player1[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("Player2");
+		for (int i=0; i<3; i++){
+			for (int j=0;j<2;j++){
+				System.out.print(player2[i][j]+" ");
+			}
+			System.out.println();
+		}
 	
 	}
 	public static boolean PCheck(String P1[][], String P2[][]){
@@ -64,7 +82,6 @@ public class Flush {
 		
 	}
 	public static String[][] SortCard(String p[][]){
-		String[][] sorted = new String[3][2];
 		String tempr = "";
 		String tempc = "";
 		if(Integer.parseInt(p[0][1])<Integer.parseInt(p[1][1])){
@@ -75,18 +92,37 @@ public class Flush {
 			p[1][0]=tempr;
 			p[1][1]=tempc;
 			
+		}
+		if(Integer.parseInt(p[1][1])<Integer.parseInt(p[2][1])){
+			tempr = p[1][0];
+			tempc = p[1][1];
+			p[1][0]=p[2][0];
+			p[1][1]=p[2][1];
+			p[2][0]=tempr;
+			p[2][1]=tempc;
+			
+		}
+		if(Integer.parseInt(p[0][1])<Integer.parseInt(p[1][1])){
+			tempr = p[0][0];
+			tempc = p[0][1];
+			p[0][0]=p[1][0];
+			p[0][1]=p[1][1];
+			p[1][0]=tempr;
+			p[1][1]=tempc;
 			
 		}
 		
-		return sorted;
+		return p;
 	}
+	
 	
 	}
 	/*
  outline for the program
- 1. Create two double dimensional arrays for players card and assign them with random cards from deck.
- 2. Create one method to check the top cards for each set by sorting the values.
- 3. Compare two set of cards and determine who has bigger cards.
+ 1. Create two double dimensional arrays for a deck of cards with its corresponding values.
+ 2. Create two double dimensional arrays for players cards.
+ 2. Create a method to create random cards and assign them to two players cards.
+ 3. Create a method to sort the cards.
  4. Create separate methods to check double, color, run, doubly, and triple and assign players with
  different values of the type of card such as Top as 1, double as 2, color as 3... 
  5. Compare the values and determine the winner.
