@@ -65,6 +65,18 @@ public class Flush {
 	}
 	public static String[][] SortCard(String p[][]){
 		String[][] sorted = new String[3][2];
+		String tempr = "";
+		String tempc = "";
+		if(Integer.parseInt(p[0][1])<Integer.parseInt(p[1][1])){
+			tempr = p[0][0];
+			tempc = p[0][1];
+			p[0][0]=p[1][0];
+			p[0][1]=p[1][1];
+			p[1][0]=tempr;
+			p[1][1]=tempc;
+			
+			
+		}
 		
 		return sorted;
 	}

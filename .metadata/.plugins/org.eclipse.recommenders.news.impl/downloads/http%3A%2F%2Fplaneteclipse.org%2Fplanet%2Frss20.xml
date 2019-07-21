@@ -1,0 +1,1237 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+
+<channel>
+	<title>Planet Eclipse</title>
+	<link>http://planeteclipse.org/planet/</link>
+	<language>en</language>
+	<description>Planet Eclipse - http://planeteclipse.org/planet/</description>
+
+<item>
+	<title>vert.x project: Eclipse Vert.x 3.8.0 released!</title>
+	<guid isPermaLink="true">https://vertx.io/blog/eclipse-vert-x-3-8-0-released</guid>
+	<link>https://vertx.io/blog/eclipse-vert-x-3-8-0-released</link>
+	<description>&lt;article&gt;&lt;p&gt;We are extremely pleased to announce that the Eclipse Vert.x version 3.8.0 has been released.&lt;/p&gt;
+&lt;p&gt;This is an important release that introduces a few changes ramping up to Vert.x 4 expected by the end of this year.&lt;/p&gt;
+&lt;h4 id=&quot;-a-id-the-reactive-sql-client-a-&quot;&gt;&lt;a id=&quot;&quot;&gt;The Reactive SQL Client&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;The client is the evolution of the legendary &lt;em&gt;Reactive PostgreSQL Client&lt;/em&gt; and provides&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The Reactive PostgreSQL Client aka Vert.x PostgreSQL Client&lt;/li&gt;
+&lt;li&gt;The Reactive MySQL Client aka Vert.x MySQL Client&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These implementations provide real high performance non-blocking access to PostgreSQL and MySQL.&lt;/p&gt;
+&lt;p&gt;To use these new modules, add the following to the &lt;em&gt;dependencies&lt;/em&gt; section of your Maven POM file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;hljs xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;io.vertx&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;vertx-pg-client&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;3.8.0&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;io.vertx&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;vertx-mysql-client&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;3.8.0&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or, if you use Gradle:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;hljs-string&quot;&gt;'io.vertx:vertx-pg-client:3.8.0'&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;hljs-string&quot;&gt;'io.vertx:vertx-mysql-client:3.8.0'&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then you are good to go!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;hljs java&quot;&gt;&lt;span class=&quot;hljs-comment&quot;&gt;// Connect options&lt;/span&gt;
+PgConnectOptions connectOptions = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; PgConnectOptions()
+  .setPort(&lt;span class=&quot;hljs-number&quot;&gt;5432&lt;/span&gt;)
+  .setHost(&lt;span class=&quot;hljs-string&quot;&gt;&quot;the-host&quot;&lt;/span&gt;)
+  .setDatabase(&lt;span class=&quot;hljs-string&quot;&gt;&quot;the-db&quot;&lt;/span&gt;)
+  .setUser(&lt;span class=&quot;hljs-string&quot;&gt;&quot;user&quot;&lt;/span&gt;)
+  .setPassword(&lt;span class=&quot;hljs-string&quot;&gt;&quot;secret&quot;&lt;/span&gt;);
+
+PgPool client = PgPool.pool(connectOptions, &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; PoolOptions().setMaxSize(&lt;span class=&quot;hljs-number&quot;&gt;5&lt;/span&gt;));
+
+client.query(&lt;span class=&quot;hljs-string&quot;&gt;&quot;SELECT * FROM users WHERE id='julien'&quot;&lt;/span&gt;, ar -&amp;gt; {
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (ar.succeeded()) {
+    RowSet result = ar.result();
+    System.out.println(&lt;span class=&quot;hljs-string&quot;&gt;&quot;Got &quot;&lt;/span&gt; + result.size() + &lt;span class=&quot;hljs-string&quot;&gt;&quot; rows &quot;&lt;/span&gt;);
+  } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; {
+    System.out.println(&lt;span class=&quot;hljs-string&quot;&gt;&quot;Failure: &quot;&lt;/span&gt; + ar.cause().getMessage());
+  }
+});&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Likewise you can achieve the same for MySQL:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;hljs java&quot;&gt;MySQLConnectOptions connectOptions = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; MySQLConnectOptions()
+  .setPort(&lt;span class=&quot;hljs-number&quot;&gt;3306&lt;/span&gt;)
+  .setHost(&lt;span class=&quot;hljs-string&quot;&gt;&quot;the-host&quot;&lt;/span&gt;)
+  .setDatabase(&lt;span class=&quot;hljs-string&quot;&gt;&quot;the-db&quot;&lt;/span&gt;)
+  .setUser(&lt;span class=&quot;hljs-string&quot;&gt;&quot;user&quot;&lt;/span&gt;)
+  .setPassword(&lt;span class=&quot;hljs-string&quot;&gt;&quot;secret&quot;&lt;/span&gt;);
+
+MySQLPool client = MySQLPool.pool(connectOptions, &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; PoolOptions().setMaxSize(&lt;span class=&quot;hljs-number&quot;&gt;5&lt;/span&gt;));
+
+client.query(&lt;span class=&quot;hljs-string&quot;&gt;&quot;SELECT * FROM users WHERE id='julien'&quot;&lt;/span&gt;, ar -&amp;gt; {
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (ar.succeeded()) {
+    RowSet result = ar.result();
+    System.out.println(&lt;span class=&quot;hljs-string&quot;&gt;&quot;Got &quot;&lt;/span&gt; + result.size() + &lt;span class=&quot;hljs-string&quot;&gt;&quot; rows &quot;&lt;/span&gt;);
+  } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; {
+    System.out.println(&lt;span class=&quot;hljs-string&quot;&gt;&quot;Failure: &quot;&lt;/span&gt; + ar.cause().getMessage());
+  }
+});&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;Reactive SQL Client&lt;/em&gt; brings to you the next generation database access, it is certainly the most exciting
+thing happening in the reactive database access space.&lt;/p&gt;
+&lt;h4 id=&quot;future-api-improvements&quot;&gt;Future API improvements&lt;/h4&gt;
+&lt;p&gt;In this release we updated the Vert.x &lt;code&gt;Future&lt;/code&gt; interface to expose completion methods in a new &lt;code&gt;Promise&lt;/code&gt; interface.&lt;/p&gt;
+&lt;p&gt;This improves the design of the API of &lt;code&gt;Future&lt;/code&gt; by having &lt;code&gt;Promise&lt;/code&gt; being the write side of an asynchronous result
+and the &lt;code&gt;Future&lt;/code&gt; being its read side.&lt;/p&gt;
+&lt;p&gt;While there is little use for this in Vert.x 3.x, this has an impact on Vert.x 4.&lt;/p&gt;
+&lt;p&gt;Consequently some method signatures have been changed to use &lt;code&gt;Promise&lt;/code&gt; instead of &lt;code&gt;Future&lt;/code&gt; explained in this &lt;a href=&quot;https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes#future-creation-and-completion&quot;&gt;page&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&quot;upgrading-to-3-8&quot;&gt;Upgrading to 3.8&lt;/h4&gt;
+&lt;p&gt;Upgrading to 3.8.0 might require a few changes in your application, you can read this &lt;a href=&quot;https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes#future-creation-and-completion&quot;&gt;page&lt;/a&gt; to understand the impact of the
+3.8 release on your application upgrade.&lt;/p&gt;
+&lt;h4 id=&quot;and-more-&quot;&gt;And more…&lt;/h4&gt;
+&lt;p&gt;Here are some other important improvements you can find in this release:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cassandra Client gets out of tech preview&lt;/li&gt;
+&lt;li&gt;Jackson upgrade to 2.9.9 and databind 2.9.9.1&lt;/li&gt;
+&lt;li&gt;And obviously we have the usual bug fixes!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;finally&quot;&gt;Finally&lt;/h4&gt;
+&lt;p&gt;The &lt;a href=&quot;https://github.com/vert-x3/wiki/wiki/3.8.0-Release-Notes&quot;&gt;3.8.0 release notes&lt;/a&gt; can be found on the wiki, as well as the
+list of &lt;a href=&quot;https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes&quot;&gt;deprecations and breaking changes&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Docker images are available on &lt;a href=&quot;https://hub.docker.com/u/vertx/&quot;&gt;Docker Hub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The Vert.x distribution can be downloaded on the website but is also available from &lt;a href=&quot;http://sdkman.io/index.html&quot;&gt;SDKMan&lt;/a&gt; and &lt;a href=&quot;http://brew.sh/&quot;&gt;HomeBrew&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The event bus client using the SockJS bridge is available from:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.npmjs.com/package/vertx3-eventbus-client&quot;&gt;NPM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/vert-x3/vertx-bus-bower&quot;&gt;Bower&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.webjars.org/&quot;&gt;WebJars&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The release artifacts have been deployed to &lt;a href=&quot;http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vertx%22%20AND%20v%3A%223.8.0%22&quot;&gt;Maven Central&lt;/a&gt; and you can get the distribution on &lt;a href=&quot;https://bintray.com/vertx/downloads/distribution/3.8.0/view&quot;&gt;Bintray&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;That’s it! Happy coding and see you soon on our user or dev &lt;a href=&quot;https://vertx.io/community&quot;&gt;channels&lt;/a&gt;.&lt;/p&gt;
+&lt;/article&gt;</description>
+	<pubDate>Fri, 19 Jul 2019 00:00:00 +0000</pubDate>
+</item>
+<item>
+	<title>Eclipse Announcements: Commercial-Grade Collaboration at the Eclipse Foundation</title>
+	<guid isPermaLink="true">http://feedproxy.google.com/~r/eclipse/fnews/~3/t9RdD1d1xPA/industrial-scale-collaboration-business-win</guid>
+	<link>http://feedproxy.google.com/~r/eclipse/fnews/~3/t9RdD1d1xPA/industrial-scale-collaboration-business-win</link>
+	<description>We've just released a Business of Open Source eBook that is essential reading for leaders in the age of digital disruption who are considering how to maximize their returns from open source participation.&lt;img alt=&quot;&quot; height=&quot;1&quot; src=&quot;http://feeds.feedburner.com/~r/eclipse/fnews/~4/t9RdD1d1xPA&quot; width=&quot;1&quot; /&gt;</description>
+	<pubDate>Tue, 16 Jul 2019 15:10:00 +0000</pubDate>
+</item>
+<item>
+	<title>N4JS: React App Development in N4JS (Chess Game Part 1)</title>
+	<guid isPermaLink="false">tag:blogger.com,1999:blog-7569987920628430132.post-4419334707635283961</guid>
+	<link>https://n4js.blogspot.com/2019/07/react-app-development-in-n4js-chess.html</link>
+	<description>&lt;b&gt;&lt;a href=&quot;https://reactjs.org/&quot;&gt;React&lt;/a&gt; is a popular JavaScript library created by Facebook widely used for developing web user interfaces. &lt;/b&gt;&lt;b&gt;In this post we introduce a tutorial on how to develop a chess game based on React, JSX and N4JS. The full tutorial is available (and playable) at &lt;a href=&quot;https://www.eclipse.org/n4js/userguides/n4js-tutorial-chess/n4js-tutorial-chess.html&quot; target=&quot;_blank&quot;&gt;eclipse.org/n4js&lt;/a&gt; and the sources can be found at &lt;a href=&quot;https://github.com/Eclipse/n4js-tutorials&quot; target=&quot;_blank&quot;&gt;github.com/Eclipse/n4js-tutorials&lt;/a&gt;.&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot;&gt;&lt;br /&gt;&lt;/div&gt;&lt;table align=&quot;center&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;tr-caption-container&quot; style=&quot;margin-left: auto; margin-right: auto; text-align: center;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/--gtGX2YSx0s/XS2GOI3At3I/AAAAAAAAAL8/F85E5T-HsKkyGhSWMTOaW2ov0kyUc3NjQCLcBGAs/s1600/chess-game-screenshot.png&quot; style=&quot;margin-left: auto; margin-right: auto;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;300&quot; src=&quot;https://1.bp.blogspot.com/--gtGX2YSx0s/XS2GOI3At3I/AAAAAAAAAL8/F85E5T-HsKkyGhSWMTOaW2ov0kyUc3NjQCLcBGAs/s1600/chess-game-screenshot.png&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;tr-caption&quot; style=&quot;text-align: center;&quot;&gt;Chess game implemented in N4JS with React&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br /&gt;&lt;span id=&quot;goog_1065493477&quot;&gt;&lt;/span&gt;The chess game app implements the following requirements:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;When the chess application is started, a chess board of 8x8 squares shall be showed containing 16 white pieces and 16 black pieces in their initial positions. &lt;/li&gt;&lt;li&gt;A player in turn shall be able to use the mouse to pick one of the pieces that she/he wants to move. A picked piece shall be clearly recognisable. Moreover, to aid players, especially beginners, whenever a piece is picked, all possible valid destination squares shall be visually highlighted as well. &lt;/li&gt;&lt;li&gt;In addition to the game board, there shall be a game information area that shows which player is in turn. Moreover, the game information area shall show a complete history of the game protocolling each move made by the players. As a bonus, jumping back to a previous state of the history shall be possible. &lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br /&gt;In the tutorial you will learn how to use npm, webpack and React to develop a web application with N4JS and the N4JS IDE. Most of the tutorial will elaborate on specific parts of the implementation and explain for example the graphical representation of the chess board and chess pieces, and how to use React to model the UI. Also, it will explain the game logic, i.e. how possible moves for the different piece types are computed, how the turn history is maintained, and how the end of the game (i.e. a win situation) is detected. In the end, the tutorial will make suggestions on how to improve the chess game e.g. by adding support for the &lt;a href=&quot;https://en.wikipedia.org/wiki/En_passant&quot; target=&quot;_blank&quot;&gt;en passant&lt;/a&gt; move.&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Have fun with implementing this game!&lt;br /&gt;&lt;br /&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;span style=&quot;font-size: x-small;&quot;&gt;by Minh Quang Tran&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</description>
+	<pubDate>Tue, 16 Jul 2019 09:47:07 +0000</pubDate>
+	<author>noreply@blogger.com (n4js dev)</author>
+</item>
+<item>
+	<title>EclipseCon Europe 2019: A New Record for Proposals!</title>
+	<guid isPermaLink="false">https://www.eclipsecon.org/news/2133 at https://www.eclipsecon.org</guid>
+	<link>https://www.eclipsecon.org/europe2019/news/new-record-proposals</link>
+	<description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;A huge thank you to the community for &lt;a href=&quot;https://www.eclipsecon.org/europe2019/sessions&quot; target=&quot;_blank&quot;&gt;proposing so many interesting talks&lt;/a&gt;. We look forward to putting together another amazing program. Speakers will be notified by early August.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-field-news-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;https://www.eclipsecon.org/europe2019/news/new-record-proposals&quot;&gt;&lt;img alt=&quot;&quot; class=&quot;img-responsive block-center&quot; height=&quot;250&quot; src=&quot;https://www.eclipsecon.org/sites/default/files/styles/solstice_news_-_default_-_thumbnail/public/news/program_cover.jpg?itok=VIy0sh2A&quot; width=&quot;250&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description>
+	<pubDate>Tue, 16 Jul 2019 00:47:14 +0000</pubDate>
+</item>
+<item>
+	<title>Tanja Obradovic: Update for Jakarta EE community: July 2019</title>
+	<guid isPermaLink="false">https://blogs.eclipse.org/6720 at https://blogs.eclipse.org</guid>
+	<link>https://blogs.eclipse.org/post/tanja-obradovic/update-jakarta-ee-community-july-2019</link>
+	<description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Two months ago, we launched a monthly email update for the Jakarta EE community which seeks to highlight news from various committee meetings related to this platform. There are a few ways to get richer insight into the work that has been invested in Jakarta EE so far, so if you’d like to learn more about Jakarta EE-related plans and get involved in shaping the future of Cloud Native Java, read on. &lt;/p&gt;
+
+&lt;p&gt;Without further ado, let’s have a look at what happened in June: &lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;strong&gt;JakartaOne LiveStream: All eyes on Cloud Native Java&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Are you interested in the current state and future of Jakarta EE? Would you like to explore other related technologies that should be part of your toolkit for developing Cloud Native Java applications? Then JakartaOne Livestream is for you! No matter if you’re a developer or a technical business leader, this virtual conference promises to satisfy your thirst for knowledge with a balance of technical talks, user experiences, use cases and more.  &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;You should join the JakartaOne Livestream speaker lineup if you want to &lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li dir=&quot;ltr&quot;&gt;
+	&lt;p dir=&quot;ltr&quot;&gt;Show the world how you and/or your organization are using Jakarta EE technologies to develop cutting-edge solutions. &lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li dir=&quot;ltr&quot;&gt;
+	&lt;p dir=&quot;ltr&quot;&gt;Demonstrate how Jakarta EE and Java EE features can be used today to develop cloud native solutions. &lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;This one-day virtual conference, which takes place September 10, 2019, is currently accepting submissions from speakers so if you have an idea for a talk that will educate and inspire the Jakarta community, now’s the time to submit your pitch!  The deadline for submissions is today, July 15, 2019. &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Note: All the JakartaOne Livestream sessions and keynotes are chosen by an independent program committee made up of volunteers from the Jakarta EE and Cloud Native Java community: Reza Rahman, who is also the program chair, Adam Bien, Arun Gupta, Ivar Grimstad, Josh Juneau, and Tanja Obradovic.&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;*As this inaugural event is a one-day event only, the number of accepted sessions is limited. Submit your talk now!  &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Even if all the talks will be recorded and made available later on the &lt;a href=&quot;https://jakarta.ee/&quot;&gt;Jakarta EE website&lt;/a&gt;, make sure to attend the virtual conference in order to directly interact with the speakers. We do hope you will attend “live”, as it will lead to more questions and more interactive sessions. &lt;strong&gt; &lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3&gt;&lt;br /&gt;
+&lt;strong&gt;Jakarta EE 8 release and progress&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Are you keeping track of &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects&quot;&gt;Eclipse EE4J&lt;/a&gt; projects on GitHub? Have you noticed that Jakarta EE Platform Specifications are now available in GitHub? If not please do!!!! Also please, check out the &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects/13&quot;&gt;creation and progress of specification projects&lt;/a&gt;, which will be used to follow the process of converting the &quot;Eclipse Project for ...&quot; projects into specification projects to set them up to specification work as defined by the Eclipse Foundation Specification Process, and &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects/12&quot;&gt;Specification Document Names&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Noticeable progress has been made on &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects/14&quot;&gt;Jakarta EE 8 TCK jobs&lt;/a&gt;, &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects/11&quot;&gt;Jakarta Specification Project Names&lt;/a&gt;, and &lt;a href=&quot;https://github.com/orgs/eclipse-ee4j/projects/10&quot;&gt;Jakarta Specification Scope Statements&lt;/a&gt; so head over to GitHub to discover all the improvements and all the bits and pieces that have already been resolved.  &lt;/p&gt;
+
+&lt;p&gt;Work on the TCK process is in progress, with Scott Stark, Vice President of Architecture at Red Hat, leading the effort. The TCK process document v 1.0 is expected to be completed in the very near future. The document will shed light on aspects such as the materials a TCK must possess in order to be considered suitable for delivering portability, the process for challenging tests and how to resolve them and more. &lt;/p&gt;
+
+&lt;p&gt;Jakarta EE 8 is expected to be released on September 10, 2019, just in time for JakartaOne Livestream.  &lt;/p&gt;
+
+&lt;h3&gt;&lt;strong&gt;Javax package namespace discussions&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The specification committee has put out two approaches regarding restrictions on javax package namespace use for the community to consider, namely Big Bang and Incremental. &lt;/p&gt;
+
+&lt;p&gt;Based on the input we got from the community and discussions within the Working Group, the specification committee has not yet reached consensus on the approach to be taken, until work on the binary compatibility is further explored. With that in mind, the Working Group members will invest time to work on the technical approach for binary compatibility and then propose/decide on the option that is the best for the customers, vendors, and developers.&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Please refer to &lt;a href=&quot;https://docs.google.com/presentation/d/1eCRNn72siY0-nQHaVQZ8Id_GMnsDtc1PXaOcW89Hbmk/edit?usp=sharing&quot;&gt;David Blevins’ presentation &lt;/a&gt;from the Jakarta EE Update call June 12th, 2019&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;If you want to dive deeper into this topic, David Blevins has &lt;a href=&quot;https://github.com/eclipse-ee4j/jakartaee-platform/blob/master/namespace/transitive.adoc&quot;&gt;written a helpful analysis&lt;/a&gt; of the javax package namespace matter, in which he answers questions like &quot;If we rename javax.servlet, what else has to be renamed?&quot; &lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;strong&gt; JCP Copyright Licensing request: Your assistance in this matter is greatly appreciated&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;As part of Java EE’s transfer to the Eclipse Foundation under the Jakarta EE name, it is essential to ensure that the Foundation has the necessary rights so that the specifications can be evolved under the new Jakarta EE Specification Process. For this, we need your help!&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;We are currently requesting copyright licenses from all past contributors to Java EE specifications under the JCP; we are reaching out to all companies and individuals who made contributions to Java EE in the past to help out, execute the agreements and return them back to the Eclipse Foundation. As the advancement of the specifications and the technology is at stake, we greatly appreciate your prompt response. Oracle, Red Hat, IBM, and many others in the community have already signed an agreement to license their contributions to Java EE specifications to the Eclipse Foundation. We are also counting on the JCP community to be supportive of this request.&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;For more information about this topic, read Tanja Obradovic’s &lt;a href=&quot;https://blogs.eclipse.org/post/tanja-obradovic/jcp-copyright-licensing-request&quot;&gt;blog&lt;/a&gt;. If you have questions regarding the request for copyright licenses from all past contributors, please contact &lt;a href=&quot;mailto:mariateresa.delgado@eclipse-foundation.org&quot;&gt;mariateresa.delgado@eclipse-foundation.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;strong&gt; Election results for Jakarta EE working group committees&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The nomination period for elections to the Jakarta EE committees is now closed. &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Almost all positions have been filled, with the exception of the Committer representative on the Marketing Committee, due to lack of nominees.   &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;The representatives for 2019-20 on the committees, starting July 1, 2019, are: &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;&lt;u&gt;Participant Representative:&lt;/u&gt;&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;STEERING COMMITTEE - Martijn Verburg (London Java Community)&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;SPECIFICATIONS COMMITTEE - Alex Theedom (London Java Community)&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;MARKETING COMMITTEE - Theresa Nguyen (Microsoft)&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;&lt;u&gt;Committer Representative:&lt;/u&gt;&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;STEERING COMMITTEE - Ivar Grimstad&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;SPECIFICATIONS COMMITTEE - Werner Keil&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;MARKETING COMMITTEE - Vacant&lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;strong&gt; Jakarta EE Community Update: June video call&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;The most recent Jakarta EE Community Update meeting took place in June; the conversation included topics such as Jakarta EE 8 progress and plans, headway with specification name changes/ specification scope definitions, TCK process update, copyright license agreements, PMC/ Projects update, and more. &lt;/p&gt;
+
+&lt;p&gt;The materials used on the Jakarta EE community update meeting are available &lt;a href=&quot;https://drive.google.com/drive/folders/1z_pI5aY5xYo3SSo6auz-rML38ozLMadF&quot;&gt;here&lt;/a&gt; and the recorded Zoom video conversation can be found &lt;a href=&quot;https://www.youtube.com/watch?v=LeZIskzEcPs&amp;amp;feature=youtu.be&quot;&gt;here&lt;/a&gt;.  &lt;/p&gt;
+
+&lt;p&gt;Please make sure to join us for the July 17th call.&lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;strong&gt; &lt;a href=&quot;https://www.eclipsecon.org/europe2019&quot;&gt;EclipseCon Europe 2019&lt;/a&gt;: Call for Papers open until July 15&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;You can still submit your proposals to be part of EclipseCon Europe 2019’s speaker lineup. The Call for Papers (CFP) is closing soon so if you have an idea for a talk that will educate and inspire the Eclipse community, now’s the time to &lt;a href=&quot;https://www.eclipsecon.org/europe2019/cfp&quot;&gt;submit your talk&lt;/a&gt;! The final submission deadline is July 15. &lt;/p&gt;
+
+&lt;p&gt;The conference takes place in Ludwigsburg, Germany on October 21 - 24, 2019. &lt;/p&gt;
+
+&lt;h3&gt;&lt;br /&gt;
+&lt;strong&gt;Jakarta EE presence at events and conferences: June overview&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;(asked members on Jakarta marketing committee Slack channel if they participated in any conferences; waiting for a reply) &lt;/p&gt;
+
+&lt;h3 dir=&quot;ltr&quot;&gt;&lt;a href=&quot;https://www.eventbrite.it/e/biglietti-eclipse-democamp-florence-2019-60934217886&quot;&gt;Eclipse DemoCamp Florence 2019&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Tomitribe: &lt;a href=&quot;https://www.tomitribe.com/blog/jakartaee-39-project-and-where-they-are-at/&quot;&gt;presence at JNation in Portugal &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Thank you for your interest in Jakarta EE. Help steer Jakarta EE toward its exciting future by subscribing to the &lt;a href=&quot;https://www.globenewswire.com/Tracker?data=0tSsQkMPqlAqlO58_0kVZUNJvuApIvPd9ayj0AoAaLggLeHBBrGJlAx-F0VJJtTwdnpi0CXR-1YRnE0ETgmQeRHNh2sqtFxkPMsi-Ulu_yk=&quot;&gt;jakarta.ee-wg@eclipse.org&lt;/a&gt; mailing list and by joining the Jakarta EE Working Group. &lt;/p&gt;
+
+&lt;p&gt;To learn more about the collaborative efforts to build tomorrow’s enterprise Java platform for the cloud, check out the &lt;a href=&quot;https://jakartablogs.ee/&quot;&gt;Jakarta Blogs&lt;/a&gt; and participate in the monthly &lt;a href=&quot;https://www.meetup.com/jakartatechtalks_/&quot;&gt;Jakarta Tech Talks&lt;/a&gt;. Don’t forget to subscribe to the Eclipse &lt;a href=&quot;https://www.eclipse.org/community/eclipse_newsletter/&quot;&gt;newsletter&lt;/a&gt;!  &lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+ &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://docs.google.com/a/eclipse-foundation.org/drawings/d/sd11njxCW9lkppgFTk5zzpg/image?w=609&amp;amp;h=374&amp;amp;rev=1&amp;amp;ac=1&amp;amp;parent=1a5O3CNRTi18lV7clEtIKOhQ52v8xchxXFrooGvddIsc&quot; style=&quot;height: 374px; width: 609px;&quot; /&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 16:19:01 +0000</pubDate>
+</item>
+<item>
+	<title>Thabang Mashologu: Commercial-Grade Collaboration at the Eclipse Foundation</title>
+	<guid isPermaLink="false">https://blogs.eclipse.org/6718 at https://blogs.eclipse.org</guid>
+	<link>https://blogs.eclipse.org/post/thabang-mashologu/commercial-grade-collaboration-eclipse-foundation</link>
+	<description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p dir=&quot;ltr&quot;&gt;When it comes to the digital economy, business runs on open source. That’s because open source is the best way to deliver large-scale business innovation and value at the pace customers expect. We’ve just released a Business of Open Source &lt;a href=&quot;http://bit.ly/BoOSS_tm&quot;&gt;eBook&lt;/a&gt; that is essential reading for leaders in the age of digital disruption who are considering how to maximize their returns from open source participation.&lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;For the last 15 years, companies ranging from startups to industry leaders the likes of Bosch, Broadcom, Fujitsu, Google, IBM, Microsoft, Oracle, Red Hat, SAP, and more have collaborated under the Eclipse governance model to advance open source projects and create value for their stakeholders. In this latest publication, we explore the role of open source as a pillar for transformation initiatives and the unique position of the Eclipse Foundation as the home of community-driven, code-first, and commercial-ready open source technologies.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Featuring interviews from leading open source industry experts, this eBook sheds light on how hundreds of organizations have leveraged the Foundation’s clear, vendor-neutral rules for intellectual property sharing and decision-making, business-friendly licensing, and ecosystem development and marketing services to accelerate market adoption, mitigate business risk, and harness open source for business growth while giving back to the developer community.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Deborah Bryant, Senior Director, Open Source Program Office at Red Hat, puts it this way in the eBook: “The Eclipse Foundation has a rich history of being an industry disrupter...It distinguishes itself in its long history and deep roots with large industry players. The Foundation has really been driven by engineers for engineers, but also as an honest broker of discussions with the business of these big companies that are doing very large-scale projects.”&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Are you leveraging all that open source has to offer? Do you understand the value of participating in open source to develop customer-centric products and services faster? Do you recognize the scalability of open source, the ability to innovate on business models, and the ability to collaborate with a global developer community? Congratulations, you’re what we like to call an &lt;a href=&quot;http://www.entropeneur.org&quot;&gt;entr&amp;lt;open&amp;gt;eur&lt;/a&gt;. To get the most out of your stake in open source, it's time to consider joining a commercially-friendly open source foundation like ours.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;To learn more about the business value of open collaboration at the Eclipse Foundation, visit &lt;a href=&quot;http://www.entropeneur.org&quot;&gt;entropeneur.org&lt;/a&gt;. In addition to the eBook, you’ll find video success stories from the Eclipse community, an &lt;a href=&quot;https://www.eclipse.org/org/value/public/pdf/business_of_open_source_infographic.pdf&quot;&gt;infographic&lt;/a&gt; summarizing the role and benefits of participating in an open source foundation, and an informative &lt;a href=&quot;https://www.eclipse.org/org/value/public/pdf/business_of_open_source_slide_deck.pdf&quot;&gt;slide deck&lt;/a&gt; that you can use to make the case for joining the Eclipse Foundation. Many thanks to Deborah Bryant, Todd Moore, and Tyler Jewell for contributing their expertise and insights to the eBook.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p dir=&quot;ltr&quot;&gt;Let us know what you think and be sure to join the entrepreneurial open source conversation on Twitter @EclipseFdn and share your open source success story using #entropeneur.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-field-blog-tags field-type-taxonomy-term-reference field-label-above&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Tags: &lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;https://blogs.eclipse.org/blog-tags/business-leadership&quot;&gt;business leadership&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;https://blogs.eclipse.org/blog-tags/eclipse-foundation&quot;&gt;Eclipse Foundation&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;https://blogs.eclipse.org/blog-tags/entreur&quot;&gt;entr&amp;lt;open&amp;gt;eur&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 15:04:01 +0000</pubDate>
+</item>
+<item>
+	<title>Eclipse Announcements: Update for Jakarta EE community: July 2019</title>
+	<guid isPermaLink="true">http://feedproxy.google.com/~r/eclipse/fnews/~3/tC6mPL_fHXg/update-jakarta-ee-community-july-2019</guid>
+	<link>http://feedproxy.google.com/~r/eclipse/fnews/~3/tC6mPL_fHXg/update-jakarta-ee-community-july-2019</link>
+	<description>There are a few ways to get richer insight into the work that has been invested in Jakarta EE so far, so if you'd like to learn more about Jakarta EE-related plans and get involved in shaping the future of Cloud Native Java, read on.&lt;img alt=&quot;&quot; height=&quot;1&quot; src=&quot;http://feeds.feedburner.com/~r/eclipse/fnews/~4/tC6mPL_fHXg&quot; width=&quot;1&quot; /&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 15:00:00 +0000</pubDate>
+</item>
+<item>
+	<title>Mike Milinkovich: Industrial-Scale Collaboration for the Business Win</title>
+	<guid isPermaLink="false">http://eclipse-foundation.blog/?p=1505</guid>
+	<link>https://eclipse-foundation.blog/2019/07/15/industrial-scale-collaboration-for-the-business-win/</link>
+	<description>&lt;p&gt;Marc Andreessen once famously said, “&lt;a href=&quot;https://a16z.com/2011/08/20/why-software-is-eating-the-world/&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;Software is eating the world&lt;/a&gt;.” He was right, software gobbled up industry sectors as varied as financial services, automotive, mining, healthcare, and entertainment. Companies of all sizes have leveraged software to improve their business processes and adapt products to a digital economy. And then a funny thing happened: open source ate software.&lt;/p&gt;
+&lt;p&gt;From startups to the world’s large corporations, commercial software is built on and with open source. In fact, open source now comprises 80 to 90 percent of the code in a typical software application. Today, &lt;a href=&quot;https://github.com/todogroup/survey&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;most companies&lt;/a&gt; ship commercial products based on open source. If software is the engine of industrial-scale digital transformation, open source is the rocket fuel.&lt;/p&gt;
+&lt;p&gt;The fact is, no single company can compete with the rate and scale of disruptive innovation delivered by diverse open source communities. Not only has open source proven to be the most viable way of delivering complex platform software, but open source tenets like transparency, community-focus, inclusion, and collaboration have been adopted by organizations for building customer-centric strategies and cultures. According to &lt;a href=&quot;https://hbswk.hbs.edu/item/the-hidden-benefit-of-giving-back-to-open-source-software&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;research&lt;/a&gt; from Harvard Business School, firms contributing to open source see as much as 100 percent of a productivity boost.&lt;/p&gt;
+&lt;p&gt;Nowadays, organizations collaborate at open source foundations to gain a competitive edge. Industry leaders leverage participation in open source foundations to accelerate the market adoption of technologies, improve time to market, and achieve superior interoperability. At the Eclipse Foundation over the last 15 years, industry leaders like Bosch, Broadcom, Fujitsu, Google, IBM, Microsoft, Oracle, Red Hat, SAP, and hundreds more have collaborated under the Eclipse governance model to drive shared innovation and create value within a sustainable ecosystem.&lt;/p&gt;
+&lt;p&gt;Today, we are thrilled to release the Business of Open Source &lt;a href=&quot;https://www.eclipse.org/org/value/public/pdf/business_of_open_source_ebook.pdf&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;eBook&lt;/a&gt; focused on how successful entrepreneurs are leveraging all that open source has to offer to drive digital disruption within business-friendly open source foundations like the Eclipse Foundation. We call this class of innovators entr&amp;lt;open&amp;gt;eurs.&lt;/p&gt;
+&lt;p&gt;Entr&amp;lt;open&amp;gt;eurs understand the value of open source participation to develop products faster, mitigate risk, and recruit talent to gain a competitive edge. They fundamentally recognize the role of vendor-neutral, community-driven, and commercially-friendly open source foundations like ours to foster industry-scale collaboration, anti-trust compliance, IP cleanliness, and ecosystem development and sustainability.&lt;/p&gt;
+&lt;p&gt;As Todd Moore, IBM’s Vice President of Open Technology, explains in the eBook, “being a disruptor generally means that you have to move very quickly. You don’t develop all of the technologies that you’re employing. You’ve got enough mastery over them to quickly be able to assemble them. You’re using automation and deployment strategies that allow you to rapidly cycle through the code. What you start with and what you end up with at the end of the string can radically change.”&lt;/p&gt;
+&lt;p&gt;Download the Business of Open Source eBook today to learn how to innovate with confidence by giving your mission-critical projects a proper home at the Eclipse Foundation. Thank you to Deborah Bryant, Todd Moore, and Tyler Jewell for contributing their insights and expertise to the eBook. Let us know what you think and be sure to join the entrepreneurial open source conversation on Twitter @EclipseFdn and share your open source success story using #entropeneur.&lt;/p&gt;
+&lt;p&gt;To learn more about the business value of open collaboration at the Eclipse Foundation, visit entropeneur.org to explore our other commercial open source resources, including video success stories featuring Eclipse community members. We’ve also developed an &lt;a href=&quot;https://www.eclipse.org/org/value/public/pdf/business_of_open_source_infographic.pdf&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;infographic&lt;/a&gt; summarizing the benefits and advantages of participating in an open source foundation, and &lt;a href=&quot;https://www.eclipse.org/org/value/public/pdf/business_of_open_source_slide_deck.pdf&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;slide deck&lt;/a&gt; that you can use to make the case for joining the Eclipse Foundation.&lt;/p&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 14:40:45 +0000</pubDate>
+</item>
+<item>
+	<title>Maximilian and Jonas: EMF Forms 1.21.0 Feature: Multi Edit for Tables and Trees</title>
+	<guid isPermaLink="false">https://eclipsesource.com/?p=41854</guid>
+	<link>https://eclipsesource.com/blogs/2019/07/15/emf-forms-1-21-0-feature-multi-edit-for-tables-and-trees/</link>
+	<description>&lt;p&gt;EMF Forms makes it easy to create forms that are able to edit your data based on an EMF model. To...&lt;/p&gt;&lt;p&gt;The post &lt;a href=&quot;https://eclipsesource.com/blogs/2019/07/15/emf-forms-1-21-0-feature-multi-edit-for-tables-and-trees/&quot; rel=&quot;nofollow&quot;&gt;EMF Forms 1.21.0 Feature: Multi Edit for Tables and Trees&lt;/a&gt; appeared first on &lt;a href=&quot;https://eclipsesource.com&quot; rel=&quot;nofollow&quot;&gt;EclipseSource&lt;/a&gt;.&lt;/p&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 10:29:17 +0000</pubDate>
+</item>
+<item>
+	<title>Donald Raab: New Features of Eclipse Collections 10.0 — Part 1</title>
+	<guid isPermaLink="false">https://medium.com/p/3307ce997d21</guid>
+	<link>https://medium.com/@donraab/new-features-of-eclipse-collections-10-0-part-1-3307ce997d21?source=rss-df39b86e9f04------2</link>
+	<description>&lt;h3&gt;New Features of Eclipse Collections 10.0 — Part 1&lt;/h3&gt;&lt;p&gt;Examples of ten new features in the latest major release of the &lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;Eclipse Collections&lt;/a&gt; library&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;&quot; src=&quot;https://cdn-images-1.medium.com/max/1024/1*SVxg11_s85WDvEmqD0m6ew.png&quot; /&gt;Ten new features in Eclipse Collections 10.0&lt;/figure&gt;&lt;h3&gt;Summary&lt;/h3&gt;&lt;p&gt;In this blog I will cover ten of the twenty six new features mentioned in the &lt;a href=&quot;https://medium.com/@donraab/eclipse-collections-10-0-released-49bae6a4b4c6&quot;&gt;Eclipse Collections 10.0 Release Summary Blog&lt;/a&gt;.&lt;/p&gt;&lt;h3&gt;1. MultiReaderList/Bag/Set Interfaces&lt;/h3&gt;&lt;p&gt;We have had multi-reader collection implementations for a long time. We have not had specialized interfaces for them. Now we do.&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;&quot; src=&quot;https://cdn-images-1.medium.com/max/1024/1*8o841yBhotvEtVz3d-Xh3g.png&quot; /&gt;MultiReaderList/Set/Bag Interfaces&lt;/figure&gt;&lt;pre&gt;@Test&lt;br /&gt;public void multiReaderList()&lt;br /&gt;{&lt;br /&gt;    MultiReaderList&amp;lt;String&amp;gt; list = &lt;br /&gt;        Lists.&lt;strong&gt;&lt;em&gt;multiReader&lt;/em&gt;&lt;/strong&gt;.with(&lt;strong&gt;&quot;1&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;2&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;3&quot;&lt;/strong&gt;);&lt;br /&gt;&lt;br /&gt;    list.withWriteLockAndDelegate(backingList -&amp;gt; {&lt;br /&gt;        Iterator&amp;lt;String&amp;gt; iterator = backingList.iterator();&lt;br /&gt;        iterator.next();&lt;br /&gt;        iterator.remove();&lt;br /&gt;    });&lt;/pre&gt;&lt;pre&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(&lt;strong&gt;&quot;2&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;3&quot;&lt;/strong&gt;), list);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;2. Stream for Primitive Lists&lt;/h3&gt;&lt;p&gt;You can ask for a Stream from a regular List, but prior to Eclipse Collections 10.0, you could not easily get a primitive stream from a primitive List. Now you can.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void primitiveListToPrimitiveStream()&lt;br /&gt;{&lt;br /&gt;    IntStream intStream1 =&lt;br /&gt;            IntLists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;    IntStream intStream2 =&lt;br /&gt;            IntLists.&lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;&lt;br /&gt;    LongStream longStream1 =&lt;br /&gt;            LongLists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1L, 2L, 3L, 4L, 5L)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;    LongStream longStream2 =&lt;br /&gt;            LongLists.&lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt;.with(1L, 2L, 3L, 4L, 5L)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;&lt;br /&gt;    DoubleStream doubleStream1 =&lt;br /&gt;            DoubleLists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1.0, 2.0, 3.0, 4.0, 5.0)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;    DoubleStream doubleStream2 =&lt;br /&gt;            DoubleLists.&lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt;.with(1.0, 2.0, 3.0, 4.0, 5.0)&lt;br /&gt;                    .primitiveStream();&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;3. toMap supports passing a target Map&lt;/h3&gt;&lt;p&gt;The method toMap has been overloaded to allow a target map to be passed in as a parameter.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void toMapWithTarget()&lt;br /&gt;{&lt;br /&gt;    MutableList&amp;lt;Integer&amp;gt; list =&lt;br /&gt;            Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5);&lt;br /&gt;&lt;br /&gt;    Map&amp;lt;String, Integer&amp;gt; map =&lt;br /&gt;            list.toMap(String::&lt;em&gt;valueOf&lt;/em&gt;,&lt;br /&gt;                       each -&amp;gt; each,&lt;br /&gt;                       new LinkedHashMap&amp;lt;&amp;gt;());&lt;br /&gt;&lt;br /&gt;    Map&amp;lt;String, Integer&amp;gt; expected = new LinkedHashMap&amp;lt;&amp;gt;();&lt;br /&gt;    expected.put(&lt;strong&gt;&quot;1&quot;&lt;/strong&gt;, 1);&lt;br /&gt;    expected.put(&lt;strong&gt;&quot;2&quot;&lt;/strong&gt;, 2);&lt;br /&gt;    expected.put(&lt;strong&gt;&quot;3&quot;&lt;/strong&gt;, 3);&lt;br /&gt;    expected.put(&lt;strong&gt;&quot;4&quot;&lt;/strong&gt;, 4);&lt;br /&gt;    expected.put(&lt;strong&gt;&quot;5&quot;&lt;/strong&gt;, 5);&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(expected, map);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;4. MutableMapIterable removeAllKeys&lt;/h3&gt;&lt;p&gt;With Eclipse Collections 10.0, you can removeAllKeys from a Map that are contained in the specified Set parameter.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void removeAllKeys()&lt;br /&gt;{&lt;br /&gt;    MutableMap&amp;lt;Integer, String&amp;gt; map = &lt;br /&gt;        Maps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, &lt;strong&gt;&quot;1&quot;&lt;/strong&gt;, 2, &lt;strong&gt;&quot;2&quot;&lt;/strong&gt;, 3, &lt;strong&gt;&quot;3&quot;&lt;/strong&gt;);&lt;br /&gt;&lt;br /&gt;    map.removeAllKeys(Sets.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 3));&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(Maps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(2, &lt;strong&gt;&quot;2&quot;&lt;/strong&gt;), map);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;5. RichIterable toBiMap&lt;/h3&gt;&lt;p&gt;With Eclipse Collections 10.0, you can now convert any RichIterable to a BiMap.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void toBiMap()&lt;br /&gt;{&lt;br /&gt;    MutableBiMap&amp;lt;String, Integer&amp;gt; expected = &lt;br /&gt;      BiMaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(&lt;strong&gt;&quot;1&quot;&lt;/strong&gt;, 1, &lt;strong&gt;&quot;2&quot;&lt;/strong&gt;, 2, &lt;strong&gt;&quot;3&quot;&lt;/strong&gt;, 3);&lt;br /&gt;&lt;br /&gt;    MutableBiMap&amp;lt;String, Integer&amp;gt; biMap = &lt;br /&gt;      Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3).toBiMap(String::&lt;em&gt;valueOf&lt;/em&gt;, i -&amp;gt; i);&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(expected, biMap);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;6. MultiMap collectKeyMultiValues&lt;/h3&gt;&lt;p&gt;We can now transform a Multimap applying functions to both keys and values using collectKeyMultiValues.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void collecKeyMultiValues()&lt;br /&gt;{&lt;br /&gt;    MutableListMultimap&amp;lt;String, String&amp;gt; multimap =&lt;br /&gt;            Multimaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.list.with(&lt;br /&gt;                    &lt;strong&gt;&quot;nj&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;Monmouth&quot;&lt;/strong&gt;,&lt;br /&gt;                    &lt;strong&gt;&quot;nj&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;Bergen&quot;&lt;/strong&gt;,&lt;br /&gt;                    &lt;strong&gt;&quot;nj&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;Union&quot;&lt;/strong&gt;);&lt;br /&gt;&lt;br /&gt;    MutableBagMultimap&amp;lt;String, String&amp;gt; transformed =&lt;br /&gt;            multimap.collectKeyMultiValues(&lt;br /&gt;                    String::toUpperCase, &lt;br /&gt;                    String::toUpperCase);&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(Multimaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.bag.with(&lt;br /&gt;            &lt;strong&gt;&quot;NJ&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;MONMOUTH&quot;&lt;/strong&gt;,&lt;br /&gt;            &lt;strong&gt;&quot;NJ&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;BERGEN&quot;&lt;/strong&gt;,&lt;br /&gt;            &lt;strong&gt;&quot;NJ&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;UNION&quot;&lt;/strong&gt;), transformed);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;7. fromStream on Collection Factories&lt;/h3&gt;&lt;p&gt;We can now construct a Collection from a Stream using fromStream on each of the Collection factories for List, Set, Bag, and Stack.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void fromStreamOnCollectionFactories()&lt;br /&gt;{&lt;br /&gt;    MutableList&amp;lt;Integer&amp;gt; &lt;br /&gt;        list = Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.fromStream(Stream.&lt;em&gt;of&lt;/em&gt;(1, 2, 3, 4, 5));&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(&lt;br /&gt;        Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5), list);&lt;br /&gt;&lt;br /&gt;    MutableSet&amp;lt;Integer&amp;gt; set = &lt;br /&gt;        Sets.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.fromStream(Stream.&lt;em&gt;of&lt;/em&gt;(1, 2, 3, 4, 5));&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(&lt;br /&gt;        Sets.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5), set);&lt;br /&gt;&lt;br /&gt;    MutableBag&amp;lt;Integer&amp;gt; bag = &lt;br /&gt;        Bags.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.fromStream(Stream.&lt;em&gt;of&lt;/em&gt;(1, 2, 3, 4, 5));&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(&lt;br /&gt;        Bags.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5), bag);&lt;br /&gt;&lt;br /&gt;    MutableStack&amp;lt;Integer&amp;gt; stack = &lt;br /&gt;        Stacks.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.fromStream(Stream.&lt;em&gt;of&lt;/em&gt;(1, 2, 3, 4, 5));&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(&lt;br /&gt;        Stacks.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3, 4, 5), stack);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;8. LazyIterate cartesianProduct&lt;/h3&gt;&lt;p&gt;Sometimes it’s useful to calculate the cartesianProduct of more than just Sets. LazyIterate.cartesianProduct will take any Iterable.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void cartesianProduct()&lt;br /&gt;{&lt;br /&gt;    MutableList&amp;lt;Integer&amp;gt; numbers = Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3);&lt;br /&gt;    MutableList&amp;lt;String&amp;gt; letters = Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(&lt;strong&gt;&quot;A&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;B&quot;&lt;/strong&gt;, &lt;strong&gt;&quot;C&quot;&lt;/strong&gt;);&lt;br /&gt;&lt;br /&gt;    MutableList&amp;lt;Pair&amp;lt;String, Integer&amp;gt;&amp;gt; pairs =&lt;br /&gt;            LazyIterate.&lt;em&gt;cartesianProduct&lt;/em&gt;(letters, numbers).toList();&lt;br /&gt;&lt;br /&gt;    MutableList&amp;lt;Pair&amp;lt;String, Integer&amp;gt;&amp;gt; expected =&lt;br /&gt;            Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;A&quot;&lt;/strong&gt;, 1),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;A&quot;&lt;/strong&gt;, 2),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;A&quot;&lt;/strong&gt;, 3),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;B&quot;&lt;/strong&gt;, 1),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;B&quot;&lt;/strong&gt;, 2),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;B&quot;&lt;/strong&gt;, 3),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;C&quot;&lt;/strong&gt;, 1),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;C&quot;&lt;/strong&gt;, 2),&lt;br /&gt;                    Tuples.&lt;em&gt;pair&lt;/em&gt;(&lt;strong&gt;&quot;C&quot;&lt;/strong&gt;, 3));&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(expected, pairs);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;9. Primitive Maps updateValues&lt;/h3&gt;&lt;p&gt;In case you want to update all of the values in a primitive map, now you can using updateValues.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void updateValues()&lt;br /&gt;{&lt;br /&gt;    MutableIntIntMap map = IntIntMaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.empty()&lt;br /&gt;            .withKeyValue(1, 5)&lt;br /&gt;            .withKeyValue(2, 3)&lt;br /&gt;            .withKeyValue(3, 10);&lt;br /&gt;&lt;br /&gt;    map.updateValues((k, v) -&amp;gt; v + 1);&lt;br /&gt;&lt;br /&gt;    MutableIntIntMap expected = IntIntMaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.empty()&lt;br /&gt;            .withKeyValue(1, 6)&lt;br /&gt;            .withKeyValue(2, 4)&lt;br /&gt;            .withKeyValue(3, 11);&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(expected, map);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;10. MutableMultimap getIfAbsentPutAll&lt;/h3&gt;&lt;p&gt;The method getIfAbsentPutAll on a MutableMultimap is equivalent to getIfAbsentPut on a MutableMap. The difference is that with a Multimap you can put in multiple values.&lt;/p&gt;&lt;pre&gt;@Test&lt;br /&gt;public void getIfAbsentPutAll()&lt;br /&gt;{&lt;br /&gt;    MutableListMultimap&amp;lt;Integer, Integer&amp;gt; multimap =&lt;br /&gt;            Multimaps.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.list.with(2, 1);&lt;br /&gt;&lt;br /&gt;    ImmutableList&amp;lt;Integer&amp;gt; defaultValue = &lt;br /&gt;            Lists.&lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt;.with(1, 2, 3);&lt;br /&gt;    MutableList&amp;lt;Integer&amp;gt; oneValue = &lt;br /&gt;            multimap.getIfAbsentPutAll(1, defaultValue);&lt;br /&gt;    MutableList&amp;lt;Integer&amp;gt; twoValue = &lt;br /&gt;            multimap.getIfAbsentPutAll(2, defaultValue);&lt;br /&gt;&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(defaultValue, oneValue);&lt;br /&gt;    Assert.&lt;em&gt;assertEquals&lt;/em&gt;(Lists.&lt;strong&gt;&lt;em&gt;mutable&lt;/em&gt;&lt;/strong&gt;.with(1), twoValue);&lt;br /&gt;}&lt;/pre&gt;&lt;h3&gt;Stay Tuned!&lt;/h3&gt;&lt;p&gt;There are still sixteen more features to cover in Eclipse Collections 10.0. I will be writing two more blogs covering all of them.&lt;/p&gt;&lt;p&gt;I hope you enjoy all of the new features in &lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;Eclipse Collections&lt;/a&gt; 10.0!&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;&lt;em&gt;Eclipse Collections&lt;/em&gt;&lt;/a&gt;&lt;em&gt; is open for &lt;/em&gt;&lt;a href=&quot;https://github.com/eclipse/eclipse-collections/blob/master/CONTRIBUTING.md&quot;&gt;&lt;em&gt;contributions&lt;/em&gt;&lt;/a&gt;&lt;em&gt;. If you like the library, you can let us know by starring it on GitHub.&lt;/em&gt;&lt;/p&gt;&lt;img height=&quot;1&quot; src=&quot;https://medium.com/_/stat?event=post.clientViewed&amp;amp;referrerSource=full_rss&amp;amp;postId=3307ce997d21&quot; width=&quot;1&quot; /&gt;</description>
+	<pubDate>Mon, 15 Jul 2019 00:05:41 +0000</pubDate>
+</item>
+<item>
+	<title>Donald Raab: Eclipse Collections 10.0 Released</title>
+	<guid isPermaLink="false">https://medium.com/p/49bae6a4b4c6</guid>
+	<link>https://medium.com/oracledevs/eclipse-collections-10-0-released-49bae6a4b4c6?source=rss-df39b86e9f04------2</link>
+	<description>&lt;figure&gt;&lt;img alt=&quot;&quot; src=&quot;https://cdn-images-1.medium.com/max/1010/1*PF-EQ7IlxLPI792mM9HuWw.png&quot; /&gt;The features you want, with the collections you need.&lt;/figure&gt;&lt;h3&gt;Thank you to the contributors&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;Eclipse Collections&lt;/a&gt; 9.2 was released in May 2018. The 9.x releases were extremely feature rich and had many contributions from the community. The 10.0 release is even more so. There were 18 contributors in the &lt;a href=&quot;https://github.com/eclipse/eclipse-collections/releases&quot;&gt;10.0 release&lt;/a&gt;. This is outstanding! Thank you so much to all of the contributors who donated their valuable time to making Eclipse Collections more feature rich and even higher quality. Your efforts are truly appreciated.&lt;/p&gt;&lt;h3&gt;Too many features for one blog&lt;/h3&gt;&lt;p&gt;There are so many features included in &lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;Eclipse Collections&lt;/a&gt; 10.0, that it is going to take me a bit longer to write good examples leveraging all of them. So I have decided to break this release blog into a few parts. This part will purely be a summary.&lt;/p&gt;&lt;h3&gt;The Feature Summary&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;Specialized Interfaces for MultiReaderList/Bag/Set&lt;/li&gt;&lt;li&gt;Implement Stream for Primitive Lists&lt;/li&gt;&lt;li&gt;Implement toMap with target Map&lt;/li&gt;&lt;li&gt;Implement MutableMapIterable.removeAllKeys&lt;/li&gt;&lt;li&gt;Implement RichIterable.toBiMap&lt;/li&gt;&lt;li&gt;Implement Multimap.collectKeyMultiValues&lt;/li&gt;&lt;li&gt;Implement fromStream(Stream) on collection factories&lt;/li&gt;&lt;li&gt;Implement LazyIterate.cartesianProduct&lt;/li&gt;&lt;li&gt;Add updateValues to primitive maps&lt;/li&gt;&lt;li&gt;Implement MutableMultimap.getIfAbsentPutAll&lt;/li&gt;&lt;li&gt;Implement Bag.collectWithOccurrences&lt;/li&gt;&lt;li&gt;Add reduce and reduceIfEmpty for primitive iterables&lt;/li&gt;&lt;li&gt;Add &amp;lt;type1&amp;gt;&amp;lt;type2&amp;gt;To&amp;lt;type1&amp;gt;Function for primitives&lt;/li&gt;&lt;li&gt;Add ofInitialCapacity to primitive maps&lt;/li&gt;&lt;li&gt;Implement countByEach on RichIterable&lt;/li&gt;&lt;li&gt;Implement UnifiedSetWithHashingStrategy.addOrReplace&lt;/li&gt;&lt;li&gt;Implement UnmodifiableMutableOrderedMap&lt;/li&gt;&lt;li&gt;Implement withAllKeyValues on mutable primitive maps.&lt;/li&gt;&lt;li&gt;Add ability to create PrimitivePrimitive/PrimitiveObject/ObjectPrimitiveMap from Iterable&lt;/li&gt;&lt;li&gt;Implement ofInitialCapacity and withInitialCapacity in HashingStrategySets&lt;/li&gt;&lt;li&gt;Implement getAny on RichIterable&lt;/li&gt;&lt;li&gt;Revamp and standardize resize/rehash for all primitive hash structures&lt;/li&gt;&lt;li&gt;Implement factory methods to convert Iterable&amp;lt;BoxedPrimitive&amp;gt; to PrimitiveStack/Bag/List/Set&lt;/li&gt;&lt;li&gt;Implement ImmutableSortedBagMultimapFactory in Multimaps&lt;/li&gt;&lt;li&gt;Implement a Map factory method that takes a Map parameter.&lt;/li&gt;&lt;li&gt;Wildcard type in MultableMultimap.putAllPairs &amp;amp; add methods&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Check out the latest &lt;a href=&quot;https://www.eclipse.org/collections/javadoc/10.0.0/overview-summary.html&quot;&gt;JavaDoc&lt;/a&gt; for the new features.&lt;/p&gt;&lt;h3&gt;Other Improvements&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;Improved Test Coverage&lt;/li&gt;&lt;li&gt;Many build improvements&lt;/li&gt;&lt;li&gt;Remove duplicate code&lt;/li&gt;&lt;li&gt;Removed some deprecated classes&lt;/li&gt;&lt;li&gt;Improved generics&lt;/li&gt;&lt;li&gt;Some new benchmark tests&lt;/li&gt;&lt;li&gt;And much more!&lt;/li&gt;&lt;/ol&gt;&lt;h3&gt;Thank you&lt;/h3&gt;&lt;p&gt;From all the contributors and committers… thank you for using Eclipse Collections. We hope you enjoy all of the new features and improvements in the 10.0 release.&lt;/p&gt;&lt;p&gt;I’ll be publishing detailed examples for the new features in the 10.0 release in a few blogs. Stay tuned!&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/eclipse/eclipse-collections&quot;&gt;&lt;em&gt;Eclipse Collections&lt;/em&gt;&lt;/a&gt;&lt;em&gt; is open for &lt;/em&gt;&lt;a href=&quot;https://github.com/eclipse/eclipse-collections/blob/master/CONTRIBUTING.md&quot;&gt;&lt;em&gt;contributions&lt;/em&gt;&lt;/a&gt;&lt;em&gt;. If you like the library, you can let us know by starring it on GitHub.&lt;/em&gt;&lt;/p&gt;&lt;img height=&quot;1&quot; src=&quot;https://medium.com/_/stat?event=post.clientViewed&amp;amp;referrerSource=full_rss&amp;amp;postId=49bae6a4b4c6&quot; width=&quot;1&quot; /&gt;&lt;hr /&gt;&lt;p&gt;&lt;a href=&quot;https://medium.com/oracledevs/eclipse-collections-10-0-released-49bae6a4b4c6&quot;&gt;Eclipse Collections 10.0 Released&lt;/a&gt; was originally published in &lt;a href=&quot;https://medium.com/oracledevs&quot;&gt;Oracle Developers&lt;/a&gt; on Medium, where people are continuing the conversation by highlighting and responding to this story.&lt;/p&gt;</description>
+	<pubDate>Sun, 14 Jul 2019 00:54:00 +0000</pubDate>
+</item>
+<item>
+	<title>PapyrusUML: Papyrus SysML 1.6  available from the Eclipse Marketplace.</title>
+	<guid isPermaLink="false">http://papyrusuml.wordpress.com/?p=2364</guid>
+	<link>https://papyrusuml.wordpress.com/2019/07/12/papyrus-sysml-1-6-available-from-the-eclipse-marketplace/</link>
+	<description>&lt;p&gt;I should have mentioned, yesterday, that Papyrus SysML 1.6 is available from the Eclipse market place at &lt;a href=&quot;https://marketplace.eclipse.org/content/papyrus-sysml-16&quot;&gt;https://marketplace.eclipse.org/content/papyrus-sysml-16&lt;/a&gt;&lt;/p&gt;
+
+
+
+&lt;p&gt;&lt;/p&gt;</description>
+	<pubDate>Fri, 12 Jul 2019 14:03:10 +0000</pubDate>
+</item>
+<item>
+	<title>PapyrusUML: Papyrus 4.4 is available</title>
+	<guid isPermaLink="false">http://papyrusuml.wordpress.com/?p=2361</guid>
+	<link>https://papyrusuml.wordpress.com/2019/07/12/papyrus-4-4-is-available/</link>
+	<description>&lt;p&gt;I’m a bit late with this posting…better late than never!&lt;/p&gt;
+
+
+
+&lt;p&gt;A new version of papyrus 4.4 is available:&lt;/p&gt;
+
+
+
+&lt;p&gt;SysML1.6 ( a forum topic will be send when the market place is available)&lt;br /&gt;&lt;/p&gt;
+
+
+
+&lt;ul&gt;&lt;li&gt;SysML 1.6 profile done&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML requirement diagram shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML Parametric diagram shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML BDD shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML IBD shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML requirement table shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML Graphical element type shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML AF shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML allocation Matrix shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The elementype of SysML 1.6 shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Make SysML 1.6 open source&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML model explorer customization shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Add written OCL constraints&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Implement E3 of SysML 1.6&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Update SysML 1.6 diagram of profile&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Add Icon for conjugated Interface block&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Add compartment of Conjugated Interfaceblock inside BDD&lt;br /&gt;&lt;/li&gt;&lt;li&gt;The SysML Junit Test shall be implemented&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Papyrus shall support the migration from SysML 1.4 to 1.6 Papyrus toolsmith&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;
+
+
+
+&lt;p&gt;Validation of plugins:&lt;br /&gt;&lt;/p&gt;
+
+
+
+&lt;ul&gt;&lt;li&gt;you have done your profile to customize papyrus, but you forget extension point, build.xml, dependencies. We have done a work not only to validate profile but the plugin that contains the profile&lt;br /&gt;&lt;/li&gt;&lt;li&gt;the work has also be done for plugins that contain elementTypes model.&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;
+
+
+
+&lt;p&gt;Improve developer experience to use plugin org.eclipse.papyrus.infra.core.sasheditor&lt;br /&gt;&lt;/p&gt;
+
+
+
+&lt;ul&gt;&lt;li&gt;Decrease the usage of internal eclipse code&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Papyrus has developed at the beginning a new kind of editor compnoent sasheditor. To be more stable, we have ask to open api to eclipse in order to improve integration to eclipse.&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Dedicated API have been created from use cases in order to help developer to access to this graphical composite; add a new editor inside papyrus, get active editor…&lt;br /&gt;&lt;/li&gt;&lt;li&gt;These usecases will be published inside a plugin developer doc :&lt;br /&gt;&lt;/li&gt;&lt;li&gt;It is will be like a javadoc that has a list of use cases and references API that implement these usecases.&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;
+
+
+
+&lt;p&gt;Model2Doc&lt;br /&gt;&lt;/p&gt;
+
+
+
+&lt;ul&gt;&lt;li&gt;Papyrus will provide a documentation generator targeting LibreOffice file (odt).&lt;br /&gt;&lt;/li&gt;&lt;li&gt;This generator will allow to the user to describe how to cross the UML model to create the document&lt;br /&gt;&lt;/li&gt;&lt;li&gt;This generator will allow to the user to define a document template to use for the generation&lt;br /&gt;&lt;/li&gt;&lt;li&gt;This generator will support image and table insertion.&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;
+
+
+
+&lt;p&gt;Go try it and send me your comments!&lt;/p&gt;
+
+
+
+&lt;p&gt;HAVE FUN!&lt;/p&gt;</description>
+	<pubDate>Fri, 12 Jul 2019 07:15:43 +0000</pubDate>
+</item>
+<item>
+	<title>Eclipse Ditto: Announcing Eclipse Ditto Release 0.9.0</title>
+	<guid isPermaLink="true">https://www.eclipse.org/ditto/2019-07-10-release-announcement-090.html</guid>
+	<link>https://www.eclipse.org/ditto/2019-07-10-release-announcement-090.html</link>
+	<description>&lt;p&gt;Today the Eclipse Ditto team proudly presents its second release 
+&lt;a href=&quot;https://projects.eclipse.org/projects/iot.ditto/releases/0.9.0&quot;&gt;0.9.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The topics of this release in a nutshell were:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Memory improvements for huge amounts (multi million) of digital twins which are held in memory&lt;/li&gt;
+  &lt;li&gt;Adding metrics and logging around the connectivity feature in order to enable being able to operate connections to foreign systems/brokers via APIs&lt;/li&gt;
+  &lt;li&gt;Enhancing Ditto’s connectivity feature by additionally being able to connect to Apache Kafka&lt;/li&gt;
+  &lt;li&gt;Performance improvements of Ditto’s search functionality&lt;/li&gt;
+  &lt;li&gt;Stabilization of cluster bootstrapping&lt;/li&gt;
+  &lt;li&gt;Refactoring of how the services configurations are determined&lt;/li&gt;
+  &lt;li&gt;Addition of a Helm template in order to simplify Kubernetes based deployments&lt;/li&gt;
+  &lt;li&gt;Contributions from Microsoft in order to ease operating Eclipse Ditto on Microsoft Azure&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Please have a look at the &lt;a href=&quot;https://www.eclipse.org/ditto/release_notes_090.html&quot;&gt;0.9.0 release notes&lt;/a&gt; for a more detailed information on the release.&lt;/p&gt;
+
+&lt;h2 id=&quot;artifacts&quot;&gt;Artifacts&lt;/h2&gt;
+
+&lt;p&gt;The new Java artifacts have been published at the &lt;a href=&quot;https://repo.eclipse.org/content/repositories/ditto/&quot;&gt;Eclipse Maven repository&lt;/a&gt;
+as well as &lt;a href=&quot;https://repo1.maven.org/maven2/org/eclipse/ditto/&quot;&gt;Maven central&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Docker images have been pushed to Docker Hub:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-policies/&quot;&gt;eclipse/ditto-policies&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-things/&quot;&gt;eclipse/ditto-things&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-things-search/&quot;&gt;eclipse/ditto-things-search&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-gateway/&quot;&gt;eclipse/ditto-gateway&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-connectivity/&quot;&gt;eclipse/ditto-connectivity&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/r/eclipse/ditto-concierge/&quot;&gt;eclipse/ditto-concierge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img alt=&quot;Ditto&quot; class=&quot;docimage&quot; src=&quot;https://www.eclipse.org/ditto/images/ditto.svg&quot; /&gt;&lt;/figure&gt;
+
+&lt;p&gt;–&lt;br /&gt;
+The Eclipse Ditto team&lt;/p&gt;</description>
+	<pubDate>Wed, 10 Jul 2019 04:00:00 +0000</pubDate>
+</item>
+<item>
+	<title>JBoss Tools Team: JBoss Tools and Red Hat CodeReady Studio for Eclipse 2019-06</title>
+	<guid isPermaLink="true">https://tools.jboss.org/blog/12.12.0.ga.html</guid>
+	<link>https://tools.jboss.org/blog/12.12.0.ga.html</link>
+	<description>&lt;div&gt;&lt;div id=&quot;preamble&quot;&gt;
+      &lt;div class=&quot;sectionbody&quot;&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://tools.jboss.org/downloads/jbosstools/2019-06/4.12.0.Final.html&quot;&gt;JBoss Tools 4.12.0&lt;/a&gt; and &lt;a href=&quot;https://tools.jboss.org/downloads/devstudio/2019-06/12.12.0.GA.html&quot;&gt;Red Hat CodeReady Studio 12.12&lt;/a&gt; for Eclipse 2019-06 are here waiting for you. Check it out!&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;crstudio12&quot; src=&quot;https://tools.jboss.org/blog/images/crstudio12.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect1&quot;&gt;
+      &lt;h2 id=&quot;installation&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#installation&quot;&gt;&lt;/a&gt;Installation&lt;/h2&gt;
+      &lt;div class=&quot;sectionbody&quot;&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Red Hat CodeReady Studio comes with everything pre-bundled in its installer. Simply download it from our &lt;a href=&quot;https://developers.redhat.com/products/codeready-studio/overview/&quot;&gt;Red Hat CodeReady product page&lt;/a&gt; and run it like this:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;literalblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;pre&gt;java -jar codereadystudio-&amp;lt;installername&amp;gt;.jar&lt;/pre&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;JBoss Tools or Bring-Your-Own-Eclipse (BYOE) CodeReady Studio require a bit more:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;This release requires at least Eclipse 4.12 (2019-06) but we recommend
+      using the latest &lt;a href=&quot;http://www.eclipse.org/downloads/packages/release/2019-06/r/eclipse-ide-java-ee-developers&quot;&gt;Eclipse 4.12 2019-06 JEE Bundle&lt;/a&gt; since then you get most of the dependencies preinstalled.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Once you have installed Eclipse, you can either find us on the Eclipse Marketplace under &quot;JBoss Tools&quot; or &quot;Red Hat CodeReady Studio&quot;.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;For JBoss Tools, you can also use our update site directly.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;literalblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;pre&gt;http://download.jboss.org/jbosstools/photon/stable/updates/&lt;/pre&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect1&quot;&gt;
+      &lt;h2 id=&quot;what-is-new&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#what-is-new&quot;&gt;&lt;/a&gt;What is new?&lt;/h2&gt;
+      &lt;div class=&quot;sectionbody&quot;&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Our main focus for this release was improvements for container based development and bug fixing.
+      Eclipse 2019-06 itself has a lot of new cool stuff but let me highlight just a few updates in both Eclipse 2019-06 and JBoss Tools plugins that I think are worth mentioning.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;openshift&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#openshift&quot;&gt;&lt;/a&gt;OpenShift&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;openshift-container-platform-4-support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#openshift-container-platform-4-support&quot;&gt;&lt;/a&gt;OpenShift Container Platform 4 support&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;With the new OpenShift Container Platform (OCP) 4 now available (see this
+      &lt;a href=&quot;https://www.redhat.com/en/about/press-releases/red-hat-redefines-enterprise-kubernetes-through-full-stack-automation-red-hat-openshift-4?source=pressreleaselisting&quot; target=&quot;_blank&quot;&gt;article&lt;/a&gt;),
+      even if this is a major shift compared to OCP 3, JBoss Tools is compatible with
+      this major release in a transparent way. Just define your connection to your
+      OCP 4 based cluster as you did before for an OCP 3 cluster, and use the tooling !&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;server-tools&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#server-tools&quot;&gt;&lt;/a&gt;Server tools&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;wildfly-17-server-adapter&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#wildfly-17-server-adapter&quot;&gt;&lt;/a&gt;Wildfly 17 Server Adapter&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A server adapter has been added to work with Wildfly 17. It adds support for Java EE 8.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;hibernate-tools&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#hibernate-tools&quot;&gt;&lt;/a&gt;Hibernate Tools&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;new-runtime-provider&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#new-runtime-provider&quot;&gt;&lt;/a&gt;New Runtime Provider&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The new Hibernate 5.4 runtime provider has been added. It incorporates Hibernate Core version 5.4.3.Final and Hibernate Tools version 5.4.3.Final&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;runtime-provider-updates&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#runtime-provider-updates&quot;&gt;&lt;/a&gt;Runtime Provider Updates&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The Hibernate 5.3 runtime provider now incorporates Hibernate Core version 5.3.10.Final and Hibernate Tools version 5.3.10.Final.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;maven&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#maven&quot;&gt;&lt;/a&gt;Maven&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;maven-support-updated-to-m2e-1-12&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#maven-support-updated-to-m2e-1-12&quot;&gt;&lt;/a&gt;Maven support updated to M2E 1.12&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The Maven support is based on Eclipse M2E 1.12&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;platform&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#platform&quot;&gt;&lt;/a&gt;Platform&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;views-dialogs-and-toolbar&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#views-dialogs-and-toolbar&quot;&gt;&lt;/a&gt;Views, Dialogs and Toolbar&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;import-project-by-passing-it-as-command-line-argument&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#import-project-by-passing-it-as-command-line-argument&quot;&gt;&lt;/a&gt;Import project by passing it as command-line argument&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;You can import a project into Eclipse by passing its path as a parameter to the
+      launcher. The command would look like &lt;code&gt;&lt;code&gt;eclipse /path/to/project&lt;/code&gt;&lt;/code&gt; on Linux and Windows,
+      or &lt;code&gt;&lt;code&gt;open Eclipse.app -a /path/to/project&lt;/code&gt;&lt;/code&gt; on macOS.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;pass directory to launcher&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/pass-directory-to-launcher.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;launch-run-and-debug-configurations-from-quick-access&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#launch-run-and-debug-configurations-from-quick-access&quot;&gt;&lt;/a&gt;Launch Run and Debug configurations from Quick Access&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;From the &lt;strong&gt;Quick Access&lt;/strong&gt; proposals (accessible with &lt;code&gt;&lt;code&gt;Ctrl+3&lt;/code&gt;&lt;/code&gt; shortcut) you can now directly launch
+      any of the Run or Debug configurations available in your workspace.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;run debug quickaccess&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/run-debug-quickaccess.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;admonitionblock note&quot;&gt;
+      &lt;table&gt;
+      &lt;tbody&gt;&lt;tr&gt;
+      &lt;td class=&quot;icon&quot;&gt;
+      &lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+      &lt;/td&gt;
+      &lt;td class=&quot;content&quot;&gt;
+      For performance reasons, the extra &lt;strong&gt;Quick Access&lt;/strong&gt; entries are only visible if the &lt;code&gt;&lt;code&gt;org.eclipse.debug.ui&lt;/code&gt;&lt;/code&gt;
+      bundle was already activated by some previous action in the workbench such as editing a launch configuration,
+      or expanding the &lt;em&gt;Run As…​&lt;/em&gt; menus.
+      &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;/tbody&gt;&lt;/table&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;themes-and-styling&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#themes-and-styling&quot;&gt;&lt;/a&gt;Themes and Styling&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;improved-view-menu-icon&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#improved-view-menu-icon&quot;&gt;&lt;/a&gt;Improved View Menu Icon&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The icon used for the view menu has been improved. It is now crisp on high resolution
+      displays and also looks much better in the dark theme.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Compare the old version at the top and the new version at the bottom:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;view menu&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/view_menu.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;high-resolution-images-drawn-on-mac&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#high-resolution-images-drawn-on-mac&quot;&gt;&lt;/a&gt;High resolution images drawn on Mac&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;On Mac, images and text are now drawn in high resolution during GC operations.
+      You can see crisp images on high resolution displays in the editor rulers, forms, etc in Eclipse.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Compare the old version at the top and the new version at the bottom:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;hidpi mac old behavior&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/hidpi-mac-old-behavior.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;hidpi mac new behavior&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/hidpi-mac-new-behavior.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;table-tree-background-lines-shown-in-dark-theme-on-mac&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#table-tree-background-lines-shown-in-dark-theme-on-mac&quot;&gt;&lt;/a&gt;Table/Tree background lines shown in dark theme on Mac&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;In dark theme on Mac, the &lt;strong&gt;Table&lt;/strong&gt; and &lt;strong&gt;Trees&lt;/strong&gt; in Eclipse now show the alternating dark lines
+      in the background when &lt;code&gt;&lt;code&gt;setLinesVisible(true)&lt;/code&gt;&lt;/code&gt; is set. Earlier they had a gray background
+      even if line visibility was true.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Example of a Tree and Table in Eclipse with alternating dark lines in the background:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;dark theme alternating lines&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/dark-theme-alternating-lines.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;equinox&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#equinox&quot;&gt;&lt;/a&gt;Equinox&lt;/h4&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;When the &lt;strong&gt;Equinox OSGi Framework&lt;/strong&gt; is launched the installed bundles are activated according
+      to their configured start-level. The bundles with lower start-levels are activated first.
+      Bundles within the same start-level are activated sequentially from a single thread.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A new configuration option &lt;code&gt;&lt;code&gt;equinox.start.level.thread.count&lt;/code&gt;&lt;/code&gt; has been added that enables
+      the framework to start bundles within the same start-level in parallel. The default value is &lt;code&gt;&lt;code&gt;1&lt;/code&gt;&lt;/code&gt;
+      which keeps the previous behavior of activating bundles from a single thread.
+      Setting the value to &lt;code&gt;&lt;code&gt;0&lt;/code&gt;&lt;/code&gt; enables parallel activation using a thread count equal
+      to &lt;code&gt;&lt;code&gt;Runtime.getRuntime().availableProcessors()&lt;/code&gt;&lt;/code&gt;. Setting the value to a number greater than &lt;code&gt;&lt;code&gt;1&lt;/code&gt;&lt;/code&gt;
+      will use the specified number as the thread count for parallel bundle activation.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The default is &lt;code&gt;&lt;code&gt;1&lt;/code&gt;&lt;/code&gt; because of the risk of possible deadlock when activating bundles in parallel.
+      Extensive testing must be done on the set of bundle installed in the framework before considering
+      enabling this option in a product.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;java-developement-tools-jdt&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#java-developement-tools-jdt&quot;&gt;&lt;/a&gt;Java Developement Tools (JDT)&lt;/h3&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;java-12-support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#java-12-support&quot;&gt;&lt;/a&gt;Java 12 Support&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;change-project-compliance-and-jre-to-12&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#change-project-compliance-and-jre-to-12&quot;&gt;&lt;/a&gt;Change project compliance and JRE to 12&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Change project compliance and JRE to 12&lt;/strong&gt; is provided to change the current project
+      to be compatible with Java 12.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix change compliance 12&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-change-compliance-12.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;enable-preview-features&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#enable-preview-features&quot;&gt;&lt;/a&gt;Enable preview features&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Preview features in Java 12 can be enabled using &lt;strong&gt;Preferences &amp;gt; Java &amp;gt; Compiler &amp;gt; Enable preview features&lt;/strong&gt;
+      option. The problem severity of these preview features can be configured using the
+      &lt;strong&gt;Preview features with severity level&lt;/strong&gt; option.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;enable preview&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/enable-preview.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;set-enable-preview-features&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#set-enable-preview-features&quot;&gt;&lt;/a&gt;Set Enable preview features&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Configure problem severity&lt;/strong&gt; is provided to update the problem severity of
+      preview features in Java 12.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix configure severity 12&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-configure-severity-12.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;add-default-case-to-switch-statement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#add-default-case-to-switch-statement&quot;&gt;&lt;/a&gt;Add default case to switch statement&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Add &amp;amp;aposdefault&amp;amp;apos case&lt;/strong&gt; is provided to add default case to a enhanced switch statement in Java 12.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix default switch statement&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-default-switch-statement.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;add-missing-case-statements-to-switch-statement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#add-missing-case-statements-to-switch-statement&quot;&gt;&lt;/a&gt;Add missing case statements to switch statement&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Add missing case statements&lt;/strong&gt; is provided for a enhanced switch statement in Java 12.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix missing case switch statement&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-missing-case-switch-statement.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;add-default-case-to-switch-expression&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#add-default-case-to-switch-expression&quot;&gt;&lt;/a&gt;Add default case to switch expression&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Add &amp;amp;aposdefault&amp;amp;apos case&lt;/strong&gt; is provided to add default case to a switch expression.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix default switch expression&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-default-switch-expression.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;add-missing-case-statements-to-switch-expression&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#add-missing-case-statements-to-switch-expression&quot;&gt;&lt;/a&gt;Add missing case statements to switch expression&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix &lt;strong&gt;Add missing case statements&lt;/strong&gt; is provided for switch expressions.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix missing case switch expression&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-missing-case-switch-expression.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;format-whitespaces-in-switch&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#format-whitespaces-in-switch&quot;&gt;&lt;/a&gt;Format whitespaces in &amp;amp;aposswitch&amp;amp;apos&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;As Java 12 introduced some new features into the &lt;code&gt;&lt;code&gt;switch&lt;/code&gt;&lt;/code&gt; construct, the formatter profile
+      has some new settings for it. The settings allow you to control spaces around the arrow operator
+      (separately for &lt;code&gt;&lt;code&gt;case&lt;/code&gt;&lt;/code&gt; and &lt;code&gt;&lt;code&gt;default&lt;/code&gt;&lt;/code&gt;) and around commas in a multi-value case.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The settings can be found in the &lt;strong&gt;Profile Editor (Preferences &amp;gt; Java &amp;gt; Code Style &amp;gt; Formatter &amp;gt; Edit…​)&lt;/strong&gt;
+      under the &lt;strong&gt;White space &amp;gt; Control statements &amp;gt; &amp;amp;aposswitch&amp;amp;apos&lt;/strong&gt; subsection.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;formatter switch&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/formatter-switch.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;split-switch-case-labels&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#split-switch-case-labels&quot;&gt;&lt;/a&gt;Split Switch Case Labels&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;As Java 12 introduced the ability to group multiple &lt;code&gt;&lt;code&gt;switch&lt;/code&gt;&lt;/code&gt; case labels into a single case expression,
+      a quick assist is provided that allows these grouped labels to be split into separate case statements.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;split switch case labels&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/split-switch-case-labels.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;java-editor&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#java-editor&quot;&gt;&lt;/a&gt;Java Editor&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;show-method-parameter-names-on-code-as-code-minings&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#show-method-parameter-names-on-code-as-code-minings&quot;&gt;&lt;/a&gt;Show method parameter names on code as code minings&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;In the &lt;strong&gt;Java &amp;gt; Editor &amp;gt; Code Mining&lt;/strong&gt; preferences, you can now enable the &lt;strong&gt;Show parameter names&lt;/strong&gt; option.
+      This will show the parameter names as code minings in method or constructor calls, for cases where
+      the resolution may not be obvious for a human reader.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;For example, the code mining will be shown if the argument name in the method call is not an exact match
+      of the parameter name or if the argument name doesn’t contain the parameter name as a substring.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;parameter name codeminings&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/parameter-name-codeminings.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;show-number-of-implementations-of-methods-as-code-minings&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#show-number-of-implementations-of-methods-as-code-minings&quot;&gt;&lt;/a&gt;Show number of implementations of methods as code minings&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;In the &lt;strong&gt;Java &amp;gt; Editor &amp;gt; Code Mining&lt;/strong&gt; preferences, selecting
+      &lt;strong&gt;Show implementations with the Show References (including implementations) for → Methods&lt;/strong&gt; option now
+      shows implementations of methods.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;method implementation codeminings&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/method-implementation-codeminings.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Clicking on method implementations brings up the &lt;strong&gt;Search&lt;/strong&gt; view that shows all implementations of the method in sub-types.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;method implementation codeminings click&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/method-implementation-codeminings-click.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;open-single-implementation-reference-in-editor-from-code-mining&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#open-single-implementation-reference-in-editor-from-code-mining&quot;&gt;&lt;/a&gt;Open single implementation/reference in editor from code mining&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;When the &lt;strong&gt;Java &amp;gt; Editor &amp;gt; Code Mining&lt;/strong&gt; preferences are enabled and a single implementation or reference is shown,
+      moving the cursor over the annotation and using &lt;strong&gt;Ctrl+Click&lt;/strong&gt; will open the editor and display the single
+      implementation or reference.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;ctrlclickimpl&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/ctrlclickimpl.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;additional-quick-fixes-for-service-provider-constructors&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#additional-quick-fixes-for-service-provider-constructors&quot;&gt;&lt;/a&gt;Additional quick fixes for service provider constructors&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Appropriate quick fixes are offered when a service defined in a &lt;code&gt;&lt;code&gt;module-info.java&lt;/code&gt;&lt;/code&gt; file has a service provider
+      implementation whose no-arg constructor is not visible, or is non-existent.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;service provider create constructor&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/service-provider-create-constructor.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;service provider change constructor visibility&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/service-provider-change-constructor-visibility.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;template-to-create-switch-labeled-statement-and-switch-expressions&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#template-to-create-switch-labeled-statement-and-switch-expressions&quot;&gt;&lt;/a&gt;Template to create Switch Labeled Statement and Switch Expressions&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The &lt;strong&gt;Java Editor&lt;/strong&gt; now offers new templates for the creation of switch labeled statements and switch expressions.
+      On a switch statement, three new templates: &lt;strong&gt;switch labeled statement&lt;/strong&gt;, &lt;strong&gt;switch case expression&lt;/strong&gt; and
+      &lt;strong&gt;switch labeled expression&lt;/strong&gt; are available as shown below. These new templates are available on Java projects
+      having compliance level of Java 12 or above.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;switch labeled statement&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/switch_labeled_statement.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;switch case expression&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/switch_case_expression.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;switch labeled expression&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/switch_labeled_expression.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;If &lt;strong&gt;switch&lt;/strong&gt; is being used as an expression, then only &lt;strong&gt;switch case expression&lt;/strong&gt;
+      and &lt;strong&gt;switch labeled expression&lt;/strong&gt; templates are available as shown below:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;switch expression templates&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/switch_expression_templates.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;java-views-and-dialogs&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#java-views-and-dialogs&quot;&gt;&lt;/a&gt;Java Views and Dialogs&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;enable-comment-generation-in-modules-and-packages&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#enable-comment-generation-in-modules-and-packages&quot;&gt;&lt;/a&gt;Enable comment generation in modules and packages&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;An option is now available to enable/disable the comment generation while
+      creating &lt;code&gt;&lt;code&gt;module-info.java&lt;/code&gt;&lt;/code&gt; or &lt;code&gt;&lt;code&gt;package-info.java&lt;/code&gt;&lt;/code&gt;.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;module info comment generation check box&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/module-info-comment-generation-check-box.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;package info comment generation checkbox&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/package-info-comment-generation-checkbox.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;improved-create-getter-and-setter-quick-assist&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#improved-create-getter-and-setter-quick-assist&quot;&gt;&lt;/a&gt;Improved &amp;amp;aposcreate getter and setter&amp;amp;apos quick assist&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The quick assist for creating getter and setter methods from fields no longer forces you to create both.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;getter setter dialog new&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/getter-setter-dialog-new.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;quick-fix-to-open-all-required-closed-projects&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#quick-fix-to-open-all-required-closed-projects&quot;&gt;&lt;/a&gt;Quick fix to open all required closed projects&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A quick fix to open all required closed projects is now available in the &lt;strong&gt;Problems&lt;/strong&gt; view.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix open missing projects problem view&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-open-missing-projects-problem-view.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;quickfix open missing projects&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/quickfix-open-missing-projects.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;new-ui-for-configuring-module-dependencies&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#new-ui-for-configuring-module-dependencies&quot;&gt;&lt;/a&gt;New UI for configuring Module Dependencies&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The &lt;strong&gt;Java Build Path&lt;/strong&gt; configuration now has a new tab &lt;strong&gt;Module Dependencies&lt;/strong&gt;, which will gradually replace
+      the options previously hidden behind the &lt;strong&gt;Is Modular&lt;/strong&gt; node on other tabs of this dialog. The new tab provides
+      an intuitive way for configuring all those module-related options for which Java 9 had introduced new command
+      line options like &lt;code&gt;&lt;code&gt;--limit-modules&lt;/code&gt;&lt;/code&gt; etc.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;module dependencies cropped&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/module-dependencies-cropped.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The dialog focuses on how to build one Java Project, here &quot;org.greetings&quot;.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Below this focus module, the left hand pane shows all modules that participate in the build, where decorations
+      A and S mark automatic modules and system modules, respectively. The extent of system modules (from JRE)
+      can be modified with the &lt;strong&gt;Add System Module…​&lt;/strong&gt; and &lt;strong&gt;Remove&lt;/strong&gt; buttons (corresponds to &lt;code&gt;&lt;code&gt;--add-modules&lt;/code&gt;&lt;/code&gt;
+      and &lt;code&gt;&lt;code&gt;--limit-modules&lt;/code&gt;&lt;/code&gt;).&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;When a module is selected in the left hand pane, the right hand pane allows to configure the following properties
+      for this module:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;strong&gt;Read Module:&lt;/strong&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Select additional modules that should be accessible from the selected module (corresponds to &lt;code&gt;&lt;code&gt;--add-reads&lt;/code&gt;&lt;/code&gt;)&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;strong&gt;Expose Package:&lt;/strong&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Select additional packages to be exposed (&quot;exports&quot; or &quot;opens&quot;) from the selected module (corresponds
+      to &lt;code&gt;&lt;code&gt;--add-exports&lt;/code&gt;&lt;/code&gt; or &lt;code&gt;&lt;code&gt;--add-opens&lt;/code&gt;&lt;/code&gt;)&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;strong&gt;Patch with:&lt;/strong&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Add more packages and classes to the selected module (corresponds to &lt;code&gt;&lt;code&gt;--patch-module&lt;/code&gt;&lt;/code&gt;)&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;java-compiler&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#java-compiler&quot;&gt;&lt;/a&gt;Java Compiler&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;experimental-java-index-retired&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#experimental-java-index-retired&quot;&gt;&lt;/a&gt;Experimental Java index retired&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Eclipse 4.7 introduced a new experimental Java index which was disabled by default.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Due to lack of resources to properly support all Java 9+ language changes, this index
+      is not available anymore starting with Eclipse 4.12.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The preference to enable it in &lt;strong&gt;Preferences &amp;gt; Java&lt;/strong&gt; is removed and the old index will be always used.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;admonitionblock note&quot;&gt;
+      &lt;table&gt;
+      &lt;tbody&gt;&lt;tr&gt;
+      &lt;td class=&quot;icon&quot;&gt;
+      &lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+      &lt;/td&gt;
+      &lt;td class=&quot;content&quot;&gt;
+      &lt;strong&gt;Preferences &amp;gt; Java &amp;gt; Rebuild Index&lt;/strong&gt; button can be used to delete the existing index files and free disk space.
+      &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;/tbody&gt;&lt;/table&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;debug&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#debug&quot;&gt;&lt;/a&gt;Debug&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;run-to-line-on-ctrl-alt-click-in-annotation-ruler&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#run-to-line-on-ctrl-alt-click-in-annotation-ruler&quot;&gt;&lt;/a&gt;&amp;amp;aposRun to Line&amp;amp;apos on Ctrl+Alt+Click in annotation ruler&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;A new shortcut, &lt;strong&gt;Ctrl+Alt+Click&lt;/strong&gt;, has been added to the annotation ruler that will invoke the &lt;strong&gt;&amp;amp;aposRun to Line&amp;amp;apos&lt;/strong&gt;
+      command and take the program execution to the line of invocation.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;run to line&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/run-to-line.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;content-assist-in-debug-shell&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#content-assist-in-debug-shell&quot;&gt;&lt;/a&gt;Content assist in Debug Shell&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Content assist (&lt;strong&gt;Ctrl+Space&lt;/strong&gt;) support is now available in the &lt;strong&gt;Debug Shell&lt;/strong&gt;.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;content assist debug shell&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/content-assist-debug-shell.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;clear-java-stack-trace-console-usage-hint-on-first-edit&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#clear-java-stack-trace-console-usage-hint-on-first-edit&quot;&gt;&lt;/a&gt;Clear Java Stack Trace Console usage hint on first edit&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The &lt;strong&gt;Java Stack Trace Console&lt;/strong&gt; shows a usage hint when opened the first time. This message
+      is now automatically removed when the user starts typing or pasting a stack trace.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;jstc initial clear&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/jstc-initial-clear.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;lambda-variable-names-shown-in-variables-view&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#lambda-variable-names-shown-in-variables-view&quot;&gt;&lt;/a&gt;Lambda variable names shown in Variables view&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The Lambda variable names are now shown in the &lt;strong&gt;Variables&lt;/strong&gt; view while debugging projects in the workspace.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;imageblock&quot;&gt;
+      &lt;div class=&quot;content&quot;&gt;
+      &lt;img alt=&quot;lambda variables view&quot; src=&quot;https://www.eclipse.org/eclipse/news/4.12/images/lambda-variables-view.png&quot; /&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect3&quot;&gt;
+      &lt;h4 id=&quot;jdt-developers&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#jdt-developers&quot;&gt;&lt;/a&gt;JDT Developers&lt;/h4&gt;
+      &lt;div class=&quot;sect4&quot;&gt;
+      &lt;h5 id=&quot;support-for-new-javadoc-tags&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#support-for-new-javadoc-tags&quot;&gt;&lt;/a&gt;Support for new Javadoc tags&lt;/h5&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;The following Javadoc tags are now supported by the compiler and auto-complete.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Tags introduced in JDK 8:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@apiNote&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@implSpec&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@implNote&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Tags introduced in JDK 9:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@index&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@hidden&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@provides&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@uses&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Tags introduced in JDK 10:&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;&lt;code&gt;@summary&lt;/code&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect2&quot;&gt;
+      &lt;h3 id=&quot;and-more&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#and-more&quot;&gt;&lt;/a&gt;And more…​&lt;/h3&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;You can find more noteworthy updates in on &lt;a href=&quot;https://tools.jboss.org/documentation/whatsnew/jbosstools/4.12.0.Final.html&quot;&gt;this page&lt;/a&gt;.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sect1&quot;&gt;
+      &lt;h2 id=&quot;what-is-next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://tools.jboss.org/blog/news.atom#what-is-next&quot;&gt;&lt;/a&gt;What is next?&lt;/h2&gt;
+      &lt;div class=&quot;sectionbody&quot;&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Having JBoss Tools 4.12.0 and Red Hat CodeReady Studio 12.12 out we are already working on the next release for Eclipse 2019-09.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Enjoy!&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;paragraph&quot;&gt;
+      &lt;p&gt;Jeff Maury&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;</description>
+	<pubDate>Tue, 09 Jul 2019 14:20:23 +0000</pubDate>
+</item>
+<item>
+	<title>Christian Pontesegger: Building UIs with EASE</title>
+	<guid isPermaLink="false">tag:blogger.com,1999:blog-3460102793186140898.post-390668608738243831</guid>
+	<link>http://codeandme.blogspot.com/2019/07/building-uis-with-ease.html</link>
+	<description>You probably used &lt;a href=&quot;https://www.eclipse.org/ease/&quot; target=&quot;_blank&quot;&gt;EASE&lt;/a&gt; before to automate daily tasks in your IDE or to &lt;a href=&quot;http://codeandme.blogspot.com/2014/12/ease-scripts-conquer-ui.html&quot; target=&quot;_blank&quot;&gt;augment toolbars and menus&lt;/a&gt; with custom functionality. But so far scripts could not be used to build UIs. This changed with the recent contribution of the &lt;i&gt;UI Builder&lt;/i&gt; module.&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;u&gt;What it is all about&lt;/u&gt;&lt;/b&gt;&lt;br /&gt;The &lt;i&gt;UI Builder&lt;/i&gt; module allows to create views and dialogs by pure script code in your IDE. It is great for custom views that developers do not want to put into their products, for rapid prototyping and even for mocking.&lt;br /&gt;&lt;br /&gt;The aim of EASE is to hide layout complexity as much as possible and provide a simple, yet flexible way to implement typical UI tasks.&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;u&gt;Example 1: Input Form&lt;/u&gt;&lt;/b&gt;&lt;br /&gt;We will start by creating a simple input form for address data.&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;loadModule(&quot;/System/UI Builder&quot;);&lt;br /&gt;createView(&quot;Create Contact&quot;);&lt;br /&gt;&lt;br /&gt;setColumnCount(2);&lt;br /&gt;createLabel(&quot;First Name:&quot;);&lt;br /&gt;var txtFirstName = createText();&lt;br /&gt;createLabel(&quot;Last Name:&quot;);&lt;br /&gt;var txtLastName = createText();&lt;br /&gt;&lt;/pre&gt;This snippet will create a dynamic view as shown below:&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-brN2-68HYis/XSNop8MmpuI/AAAAAAAABHQ/iEPADCmZMakR19LW21MSDgjGPj7gmKjtwCLcBGAs/s1600/script_form.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;155&quot; src=&quot;https://1.bp.blogspot.com/-brN2-68HYis/XSNop8MmpuI/AAAAAAAABHQ/iEPADCmZMakR19LW21MSDgjGPj7gmKjtwCLcBGAs/s400/script_form.png&quot; width=&quot;400&quot; /&gt;&lt;/a&gt;&lt;/div&gt;The renderer used will apply a &lt;a href=&quot;https://www.eclipse.org/articles/Article-Understanding-Layouts/Understanding-Layouts.htm&quot; target=&quot;_blank&quot;&gt;GridLayout&lt;/a&gt;. By setting the &lt;i&gt;columnCount&lt;/i&gt; to 2 we may simply add our elements without providing any additional layout information - a simple way to create basic layouts.&lt;br /&gt;&lt;br /&gt;If needed EASE provides more control by providing layout information when creating components:&lt;br /&gt;&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;createView(&quot;Create Contact&quot;);&lt;br /&gt;createLabel(&quot;First Name:&quot;, &quot;1/1 &amp;gt;x&quot;);&lt;br /&gt;var txtFirstName = createText(&quot;2-4/1 o!&quot;);&lt;br /&gt;createLabel(&quot;Last Name:&quot;, &quot;1/2 &amp;gt;x&quot;);&lt;br /&gt;var txtLastName = createText(&quot;2-4/2 o!&quot;);&lt;br /&gt;&lt;/pre&gt;Creates the same view as above, but now with detailed layout information.&lt;br /&gt;As an example &lt;i&gt;&quot;1/2 &amp;gt;x&quot;&lt;/i&gt; means: first column, second row, horizontal align right, vertical align middle. A full documentation on the syntax is provided in the module documentation (Hover over the &lt;i&gt;UI Builder&lt;/i&gt; module in the &lt;i&gt;Modules Explorer&lt;/i&gt; view).&lt;br /&gt;&lt;br /&gt;Now lets create a combo viewer to select a country for the address:&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;cmbCountry = createComboViewer([&quot;Austria&quot;, &quot;Germany&quot;, &quot;India&quot;, &quot;USA&quot;])&lt;br /&gt;&lt;/pre&gt;Simple, isn't it?&lt;br /&gt;&lt;br /&gt;So far we did not need to react on any of our UI elements. Next step is to create a button which needs some kind of callback action:&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;createButton(&quot;Save 1&quot;, 'print(&quot;you hit the save button&quot;)')&lt;br /&gt;createButton(&quot;Save 2&quot;, saveAddress)&lt;br /&gt;&lt;br /&gt;function saveAddress() {&lt;br /&gt; print(&quot;This is the save method&quot;);&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;The first version of a button adds the callback code as string argument. When the button gets pressed, the callback code will be executed. You may call any script code that the engine is capable of interpreting.&lt;br /&gt;&lt;br /&gt;The second version looks a bit cleaner, as it defines a function &lt;i&gt;saveAddress() &lt;/i&gt;which is called on a button click. Note that we provide a function reference to &lt;i&gt;createButton()&lt;/i&gt;.&lt;br /&gt;&lt;br /&gt;&lt;a href=&quot;https://git.eclipse.org/c/ease/org.eclipse.ease.scripts.git/tree/Demos/UI%20Builder%20Examples/AddressBook/Address%20Input.js&quot; target=&quot;_blank&quot;&gt;View the full example&lt;/a&gt; of this script on our &lt;a href=&quot;https://git.eclipse.org/c/ease/org.eclipse.ease.scripts.git/tree&quot; target=&quot;_blank&quot;&gt;script repository&lt;/a&gt;. In addition to some more layouting it also contains a working implementation of the save action to store addresses as JSON data files.&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/--lzn_mY5Qgk/XSOChZd5CcI/AAAAAAAABHg/m7V3kv57g4Y-a3oHdQEhIBd44Pq6KaESQCLcBGAs/s1600/script_form2.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;211&quot; src=&quot;https://1.bp.blogspot.com/--lzn_mY5Qgk/XSOChZd5CcI/AAAAAAAABHg/m7V3kv57g4Y-a3oHdQEhIBd44Pq6KaESQCLcBGAs/s400/script_form2.png&quot; width=&quot;400&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;&lt;b&gt;&lt;u&gt;Interacting with SWT controls&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;&lt;br /&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;The saveAddress() method needs to read data from the input fields of our form. This could be done using&lt;/div&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;var firstName = txtFirstName.getText();&lt;/pre&gt;Unfortunately SWT Controls can only be queried in the UI thread, while the script engine is executed in its own thread. To move code execution to the UI thread, the UI module provides a function executeUI(). By default this functionality is disabled as a bad script executed in the UI thread might stall your Eclipse IDE. To enable it you need to set a checkbox in &lt;i&gt;Preferences/Scripting&lt;/i&gt;. The full call then looks like this:&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;loadModule(&quot;/System/UI&quot;)&lt;br /&gt;var firstName = executeUI('txtFirstName.getText();');&lt;/pre&gt;&lt;br /&gt;&lt;b&gt;&lt;u&gt;Example 2: A viewer for our phone numbers&lt;/u&gt;&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Now that we are able to create some sample data, we also need a viewer for our phone numbers. Say we are able to load all our addresses into an array, the only thing we need is a table viewer to visualize our entries. Following 2 lines will do the job:&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;var addresses = readAddresses();&lt;br /&gt;var tableViewer = createTableViewer(addresses)&lt;br /&gt;&lt;/pre&gt;Where &lt;i&gt;readAddresses()&lt;/i&gt; collects our &lt;i&gt;*.address&lt;/i&gt; files and stores them into an array.&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-68LKx5DHLtI/XSOGL7c-VsI/AAAAAAAABHs/sTsk1alaXqMcfAsazcqoIM7gam9lEw1tACLcBGAs/s1600/phonebook_1.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;135&quot; src=&quot;https://1.bp.blogspot.com/-68LKx5DHLtI/XSOGL7c-VsI/AAAAAAAABHs/sTsk1alaXqMcfAsazcqoIM7gam9lEw1tACLcBGAs/s400/phonebook_1.png&quot; width=&quot;400&quot; /&gt;&lt;/a&gt;&lt;/div&gt;So the viewer works, however we need to define how our columns shall be rendered.&lt;br /&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;createViewerColumn(tableViewer, &quot;Name&quot;, createLabelProvider(&quot;getProviderElement().firstName + ' ' + getProviderElement().lastName&quot;))&lt;br /&gt;createViewerColumn(tableViewer, &quot;Phone&quot;, createLabelProvider(&quot;getProviderElement().phone&quot;))&lt;br /&gt;&lt;/pre&gt;Whenever a callback needs a viewer element, getProviderElement() holds the actual element.&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-Y62uH5tW7DY/XSOH3xupNrI/AAAAAAAABH4/nc-_VNd0Zq0zqyNDTvoj3qKzbOtZOc3pwCLcBGAs/s1600/phonebook_2.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;135&quot; src=&quot;https://1.bp.blogspot.com/-Y62uH5tW7DY/XSOH3xupNrI/AAAAAAAABH4/nc-_VNd0Zq0zqyNDTvoj3qKzbOtZOc3pwCLcBGAs/s400/phonebook_2.png&quot; width=&quot;400&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;We are done! 3 lines of code for a TableViewer does not sound too bad, right? Again a &lt;a href=&quot;https://git.eclipse.org/c/ease/org.eclipse.ease.scripts.git/tree/Demos/UI%20Builder%20Examples/AddressBook/List.js&quot; target=&quot;_blank&quot;&gt;full example&lt;/a&gt; is available on our script repository. It automatically loads &lt;i&gt;*.address&lt;/i&gt; files from your workspace and displays them in the view.&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;&lt;br /&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;&lt;b&gt;&lt;u&gt;Example 3: A workspace viewer&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;&lt;br /&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: left;&quot;&gt;We had a &lt;i&gt;TableViewer&lt;/i&gt; before, now lets try a &lt;i&gt;TreeViewer&lt;/i&gt;. As a tree needs structure, we need to provide a callback to calculate child elements from a given parent:&lt;/div&gt;&lt;pre class=&quot;brush: javascript&quot;&gt;var viewer = createTreeViewer(getWorkspace().getProjects(), getChildren);&lt;br /&gt;&lt;br /&gt;function getChildren() {&lt;br /&gt; if (getProviderElement() instanceof org.eclipse.core.resources.IContainer)&lt;br /&gt;  return getProviderElement().members();&lt;br /&gt; &lt;br /&gt; return null;&lt;br /&gt;}&lt;/pre&gt;So simple! The &lt;a href=&quot;https://git.eclipse.org/c/ease/org.eclipse.ease.scripts.git/tree/Demos/UI%20Builder%20Examples/Project%20Info%20Viewer.js&quot; target=&quot;_blank&quot;&gt;full example&lt;/a&gt; looks like this:&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-2MQ7dKZ66Ss/XSOJgJTpDsI/AAAAAAAABIE/29WKkpR8C7MMNsg_P2MVCcj2qZD46KNKQCLcBGAs/s1600/project_viewer.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://1.bp.blogspot.com/-2MQ7dKZ66Ss/XSOJgJTpDsI/AAAAAAAABIE/29WKkpR8C7MMNsg_P2MVCcj2qZD46KNKQCLcBGAs/s1600/project_viewer.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;b&gt;&lt;u&gt;Example 4: Math function viewer&lt;/u&gt;&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;The last example demonstrates how to add a custom &lt;i&gt;Control&lt;/i&gt; to a view.&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-_rcEjTB8-xI/XSOKb3F8QCI/AAAAAAAABIM/f8-GYaCBZmMrMkw4VBFso6qqvkPX3vOFwCLcBGAs/s1600/functions.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;304&quot; src=&quot;https://1.bp.blogspot.com/-_rcEjTB8-xI/XSOKb3F8QCI/AAAAAAAABIM/f8-GYaCBZmMrMkw4VBFso6qqvkPX3vOFwCLcBGAs/s640/functions.png&quot; width=&quot;640&quot; /&gt;&lt;/a&gt;&lt;/div&gt;For plotting we use the Charting module that is shipped with EASE. The &lt;a href=&quot;https://git.eclipse.org/c/ease/org.eclipse.ease.scripts.git/tree/Demos/UI%20Builder%20Examples/Plot%20function.js&quot; target=&quot;_blank&quot;&gt;source code&lt;/a&gt; should be pretty much self explanatory.&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;u&gt;Some Tips &amp;amp; Tricks&lt;/u&gt;&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Layouting is dynamic.&lt;br /&gt;Unlike the Java &lt;i&gt;GridLayout&lt;/i&gt; you do not need to fill all cells of your layout. The EASE renderer takes care to automatically fill empty cells with placeholders&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Elements can be replaced.&lt;br /&gt;If you use coordinates when creating controls, you may easily replace a given control by another one. This simplifies the process of layouting (eg if you experience with alignments) and even allows a view to dynamically change its components depending on some external data/events&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Full control.&lt;br /&gt;While some methods from SWT do not have a corresponding script function, still all SWT calls may be used as the &lt;i&gt;create*&lt;/i&gt; methods expose the underlying SWT instances.&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Layout help.&lt;br /&gt;To simplify layouting use the &lt;i&gt;showGrid()&lt;/i&gt; function. It displays cell borders that help you to see row/column borders.&lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;&lt;br /&gt;</description>
+	<pubDate>Mon, 08 Jul 2019 18:54:52 +0000</pubDate>
+	<author>noreply@blogger.com (Christian Pontesegger)</author>
+</item>
+<item>
+	<title>Jens Reimann: Eclipse Milo 0.3, updated examples</title>
+	<guid isPermaLink="false">https://dentrassi.de/?p=4271</guid>
+	<link>https://dentrassi.de/2019/07/06/eclipse-milo-0-3-updated-examples/</link>
+	<description>&lt;p&gt;We while back I wrote&lt;a href=&quot;https://dentrassi.de/2017/09/14/creating-opc-ua-solutions-eclipse-milo/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt; a blog post about OPC UA, using Milo&lt;/a&gt; and added a bunch of examples, in order to get you started. Time passed by and now Milo 0.3.x is released, with a changed API and so those examples no longer work. Not too much has changed, but the experience of running into compile errors isn’t a good one. Finally I found some time to update the examples.&lt;/p&gt;
+
+
+
+&lt;span id=&quot;more-4271&quot;&gt;&lt;/span&gt;
+
+
+
+&lt;p&gt;This blog post will focus on the changes, compared to the old blog post. As the old blog post is still valid, I though it might make sense to keep it, and introduce the changes of Milo here. The examples repository however is updated to show the new APIs on the &lt;code&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+
+
+
+&lt;h2&gt;Making contact&lt;/h2&gt;
+
+
+
+&lt;p&gt;This is the first situation where you run into the changed API, getting the endpoints. Although the new code is not much different, the old will no longer work:&lt;/p&gt;
+
+
+
+&lt;pre class=&quot;wp-block-code&quot;&gt;&lt;code&gt;List&amp;lt;EndpointDescription&amp;gt; endpoints =
+  DiscoveryClient.getEndpoints(&quot;opc.tcp://localhost:4840&quot;)
+    .get();&lt;/code&gt;&lt;/pre&gt;
+
+
+
+&lt;p&gt;When you compare that to the old code, then you will notice that instead of an array, now a list is being used and the class name changed. Not too bad.&lt;/p&gt;
+
+
+
+&lt;p&gt;Also, the way you create a new client instance with Milo 0.3.x is a bit different now:&lt;/p&gt;
+
+
+
+&lt;pre class=&quot;wp-block-code&quot;&gt;&lt;code&gt;OpcUaClientConfigBuilder cfg = new OpcUaClientConfigBuilder();
+cfg.setEndpoint(endpoints[0]); // please do better, and not only pick the first entry
+
+OpcUaClient client = OpcUaClient.create(cfg.build());
+client.connect().get();&lt;/code&gt;&lt;/pre&gt;
+
+
+
+&lt;p&gt;Using the static &lt;code&gt;create&lt;/code&gt; method instead of the constructor allows for a bit more processing, before the class instance is actually created. Also may this new method throw an exception now. Handling this in an async way isn’t too hard when you are using Java 9+:&lt;/p&gt;
+
+
+
+&lt;pre class=&quot;wp-block-code&quot;&gt;&lt;code&gt;public static CompletableFuture&amp;lt;OpcUaClient&amp;gt; createClient(String uri) {
+  return DiscoveryClient
+    .getEndpoints(uri) // look up endpoints from remote
+    .thenCompose(endpoints -&amp;gt; {
+      try {
+        return CompletableFuture.completedFuture(
+            OpcUaClient.create(buildConfiguration(endpoints)) // &quot;buildConfiguration&quot; should pick an endpoint
+        );
+      } catch (final UaException e) {
+        return CompletableFuture.failedFuture(e);
+      }
+    });
+}&lt;/code&gt;&lt;/pre&gt;
+
+
+
+&lt;h2&gt;That’s it? That’s it!&lt;/h2&gt;
+
+
+
+&lt;p&gt;Well, pretty much. However, we have only been looking at the client side of Milo. Implementing your own server requires to use the server side API, and that change much more. But to be fair, the changes improve the situation a lot, and make things much easier to use.&lt;/p&gt;
+
+
+
+&lt;h2&gt;Milo examples repository&lt;/h2&gt;
+
+
+
+&lt;p&gt;As mentioned, the examples in the repository &lt;a href=&quot;https://github.com/ctron/milo-ece2017&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;ctron/milo-ece2017&lt;/a&gt; have been updated as well. They also contain the changed server side, which changed a lot more than the client side.&lt;/p&gt;
+
+
+
+&lt;p&gt;When you &lt;a href=&quot;https://github.com/ctron/milo-ece2017/compare/milo-0.2x...master&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;compare the two branches&lt;/a&gt; &lt;code&gt;master&lt;/code&gt; and &lt;code&gt;milo-0.2.x&lt;/code&gt;, you can see the changed I made for updating to the new version.&lt;/p&gt;
+
+
+
+&lt;p&gt;I hope this helps a bit in getting started with Milo 0.3.x. And please be sure to read the &lt;a href=&quot;https://dentrassi.de/2017/09/14/creating-opc-ua-solutions-eclipse-milo/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;original post&lt;/a&gt;, giving a more detailed introduction, as well.&lt;/p&gt;
+&lt;p&gt;The post &lt;a href=&quot;https://dentrassi.de/2019/07/06/eclipse-milo-0-3-updated-examples/&quot; rel=&quot;nofollow&quot;&gt;Eclipse Milo 0.3, updated examples&lt;/a&gt; appeared first on &lt;a href=&quot;https://dentrassi.de&quot; rel=&quot;nofollow&quot;&gt;ctron's blog&lt;/a&gt;.&lt;/p&gt;</description>
+	<pubDate>Sat, 06 Jul 2019 20:22:28 +0000</pubDate>
+</item>
+<item>
+	<title>Eclipse Announcements: Early-Bird Talks: A Preview of What's to Come</title>
+	<guid isPermaLink="true">http://feedproxy.google.com/~r/eclipse/fnews/~3/BSu5JZyuips/early-bird-talks-preview-whats-come</guid>
+	<link>http://feedproxy.google.com/~r/eclipse/fnews/~3/BSu5JZyuips/early-bird-talks-preview-whats-come</link>
+	<description>The community really came though for the early-bird deadline this year. The program committee reviewed a record number of talks (144) to come up with a top-six list!&lt;img alt=&quot;&quot; height=&quot;1&quot; src=&quot;http://feeds.feedburner.com/~r/eclipse/fnews/~4/BSu5JZyuips&quot; width=&quot;1&quot; /&gt;</description>
+	<pubDate>Fri, 05 Jul 2019 13:25:00 +0000</pubDate>
+</item>
+<item>
+	<title>N4JS: Short-Circuit Evaluation in N4JS</title>
+	<guid isPermaLink="false">tag:blogger.com,1999:blog-7569987920628430132.post-761854849853353188</guid>
+	<link>https://n4js.blogspot.com/2018/10/short-circuit-evaluation-in-n4js_17.html</link>
+	<description>&lt;h4&gt;Short-circuit evaluation is a popular feature of many programming languages and also part of N4JS. In this post, we show how the control-flow analysis of the N4JS-IDE deals with short-circuit evaluation, since it can have a substantial effect on the data flow and execution of a program.&lt;/h4&gt;&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://4.bp.blogspot.com/-g6wjXUt3sao/W8buQnfTrcI/AAAAAAAAADk/kAsgHzdkJ1UFfWKwj-MvMgyk5_d09iwtACLcBGAs/s1600/introduction.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://4.bp.blogspot.com/-g6wjXUt3sao/W8buQnfTrcI/AAAAAAAAADk/kAsgHzdkJ1UFfWKwj-MvMgyk5_d09iwtACLcBGAs/s1600/introduction.png&quot; width=&quot;575&quot; /&gt;&lt;/a&gt;&lt;/div&gt;Short circuit evaluation is a means to improve runtime performance when evaluating boolean expressions. This improvement is a result of skipping code execution. The example above shows an &lt;span&gt;if&lt;/span&gt;-statement whose condition consists of two boolean expressions that combine the values of &lt;span&gt;1&lt;/span&gt;, &lt;span&gt;2&lt;/span&gt; and &lt;span&gt;3,&lt;/span&gt; and its control flow graph. Note that the number literals are placeholders for more meaningful subexpressions.&lt;br /&gt;&lt;br /&gt;First the &lt;i&gt;logical and&lt;/i&gt;, then the &lt;i&gt;logical or&lt;/i&gt; gets evaluated: &lt;span&gt;(1 &amp;amp;&amp;amp; 2) || 3&lt;/span&gt;. In case the expression &lt;span&gt;1 &amp;amp;&amp;amp; 2&lt;/span&gt; evaluates to true, the evaluation of the subclause &lt;span&gt;3&lt;/span&gt; will be skipped and the evaluation of the entire condition results to true. This skipping of nested boolean expressions is called &lt;i&gt;short circuit evaluation&lt;/i&gt;.&lt;br /&gt;&lt;br /&gt;However, instead of skipping expression &lt;span&gt;3&lt;/span&gt;, expression &lt;span&gt;2&lt;/span&gt; might be skipped. In case condition &lt;span&gt;1&lt;/span&gt; does not hold, the control flow will continue with condition &lt;span&gt;3&lt;/span&gt; right away. This control flow completely takes places within the if-condition, whereas the former short circuit targets the then block.&lt;br /&gt;&lt;br /&gt;The reasoning behind short circuit evaluation is  that the skipped code does not affect the result of the whole boolean  expression. If the left hand side of the logical or expression evaluates  to true, the whole or expression also does. Only if the left hand side  is false, the right hand side will be evaluated. Complementary, the  right hand side of a logical and expression is skipped in case the left  hand side evaluates to false.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h4&gt;Side Effects&lt;/h4&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;Risks of short circuit evaluation might arise in case a subexpression has side effects: These side effects will not occur if the subexpression is skipped. However, a program that relies on side effects of expressions inside an &lt;span&gt;if&lt;/span&gt;-condition can be called fragile (or adventurous). In any case it is recommended to write side-effect free conditions.&lt;/div&gt;&lt;br /&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://2.bp.blogspot.com/-0JcnBeJ-1Rk/W8buRqUWCvI/AAAAAAAAADw/zYwwORwyclEdUHm5HQex4aKR5UPHlATIACLcBGAs/s1600/side_effects.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://2.bp.blogspot.com/-0JcnBeJ-1Rk/W8buRqUWCvI/AAAAAAAAADw/zYwwORwyclEdUHm5HQex4aKR5UPHlATIACLcBGAs/s1600/side_effects.png&quot; width=&quot;575&quot; /&gt;&lt;/a&gt;&lt;/div&gt;Have a look at the example above. In case variable &lt;span&gt;i&lt;/span&gt; has a value of zero, the right hand side expression &lt;span&gt;i++&lt;/span&gt; is executed, otherwise, it is skipped. The side effect here is the post-increment the value of &lt;span&gt;i&lt;/span&gt;. If the value of &lt;span&gt;i&lt;/span&gt; is other than zero, this value will be printed out. Otherwise, the value will be incremented but not printed. The control flow shows this behavior with the edge starting at &lt;span&gt;i&lt;/span&gt; and targeting the symbol &lt;span&gt;console&lt;/span&gt;.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h4&gt;Loops&lt;/h4&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://2.bp.blogspot.com/-1L_PrkVxmYg/W8buQulSsEI/AAAAAAAAADc/Dh9U1bA9ZboCQP52QjjPIync_DTyJL2AQCLcBGAs/s1600/loops.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://2.bp.blogspot.com/-1L_PrkVxmYg/W8buQulSsEI/AAAAAAAAADc/Dh9U1bA9ZboCQP52QjjPIync_DTyJL2AQCLcBGAs/s1600/loops.png&quot; width=&quot;575&quot; /&gt;&lt;/a&gt;&lt;/div&gt;Loop conditions also benefit from short circuit evaluation. This is important to know when reasoning about the all possible control flow paths through the loop: Each short circuit will introduce another path. Combining all of them makes data flow in loops difficult to understand in case of side effects in the subconditions.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h4&gt;Creative use of short circuit evaluation&lt;/h4&gt;&lt;div&gt;&lt;br /&gt;Misusing short circuit evaluation can mimic if-statements by using  expressions but without using  the language feature of conditional expressions (i.e. &lt;span&gt;condition() ? then() : else()&lt;/span&gt;). This could be used when if-statements should be executed e.g. when passing  arguments to method calls, or when computing the update part of  for-loops.&lt;/div&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://2.bp.blogspot.com/-bQAq2BWre9s/W8buRTY5OJI/AAAAAAAAADo/uzZ-OqHynNcfrh1k6jYMVbN2MkhiI9xtQCLcBGAs/s1600/modelling.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot; width=&quot;575&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://2.bp.blogspot.com/-bQAq2BWre9s/W8buRTY5OJI/AAAAAAAAADo/uzZ-OqHynNcfrh1k6jYMVbN2MkhiI9xtQCLcBGAs/s1600/modelling.png&quot; width=&quot;575&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;The picture above shows the two versions: the first uses an if-statement and the second uses an  expression statement. These two statements call the functions &lt;span&gt;condition&lt;/span&gt;, &lt;span&gt;then&lt;/span&gt; and &lt;span&gt;end&lt;/span&gt;. Depending on the return value of &lt;span&gt;condition&lt;/span&gt;, the function &lt;span&gt;then&lt;/span&gt; is  executed or not. Consequently, the printouts are either &quot;condition then  end&quot; or &quot;condition end&quot;, depending on the control flow.&lt;br /&gt;&lt;br /&gt;The corresponding control flows are depicted on the right: The upper three lines refer to the if-statement, and the lower three lines to the expression statement. They reveal that the expression statement  behaves similar to the if-statement. Note that the control flow edge  in the last line that skips the nodes &lt;span&gt;end&lt;/span&gt; and &lt;span&gt;end()&lt;/span&gt; is never traversed since the logical or expression always evaluates to true.&lt;br /&gt;&lt;br /&gt;&lt;div style=&quot;text-align: left;&quot;&gt;The interested reader would find more details about the N4JS flow graphs and their implementation in the &lt;a href=&quot;https://github.com/eclipse/n4js/blob/master/docs/org.eclipse.n4js.design/chapters/10_flowgraphs/flowgraphs.adoc&quot; target=&quot;_blank&quot;&gt;N4JS Design Document, Chapter: Flow Graphs.&lt;/a&gt; &lt;/div&gt;&lt;br /&gt;&lt;br /&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;span style=&quot;font-size: x-small;&quot;&gt;by Marcus Mews&lt;/span&gt;&lt;/div&gt;&lt;br /&gt;</description>
+	<pubDate>Thu, 04 Jul 2019 13:01:06 +0000</pubDate>
+	<author>noreply@blogger.com (n4js dev)</author>
+</item>
+<item>
+	<title>N4JS: Null/Undefined Analysis in N4JS</title>
+	<guid isPermaLink="false">tag:blogger.com,1999:blog-7569987920628430132.post-875574530099273704</guid>
+	<link>https://n4js.blogspot.com/2018/09/nullundefined-analysis-in-n4js_20.html</link>
+	<description>&lt;h4&gt;&lt;/h4&gt;&lt;h4&gt;&lt;b&gt;The N4JS IDE integrates validations and analyses that are quite common for IDEs of statically typed languages. However, these analyses are seldom available for dynamically typed languages like N4JS or TypeScript. In this post we present the null/undefined analysis for N4JS source code.&lt;/b&gt;&lt;/h4&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;span&gt;TypeError: Cannot read property of undefined&lt;/span&gt;&lt;/b&gt;&lt;br /&gt;&lt;div style=&quot;text-align: right;&quot;&gt;- Developer's staff of life&lt;/div&gt;&lt;br /&gt;&lt;br /&gt;The runtime error above occurs pretty often for JavaScript programmers: A quick search on Google returned about 1.2 million for the term &lt;i&gt;TypeError: Cannot read property of undefined&lt;/i&gt;. When constraining search results to &lt;i&gt;&lt;span style=&quot;font-family: inherit;&quot;&gt;site:stackoverflow.com&lt;/span&gt;&lt;/i&gt; the query will still yield 126 thousand results. These numbers are comparable to the somewhat similar error &lt;i&gt;NullPointerException&lt;/i&gt; which has about 3 million hits on Google and about 525 thousand when constrained to stackoverflow.com. Some of these results are caused by rather simple mistakes that a null/undefined analysis could detect. As a result, the developer could restructure his code and remove these potential errors even before he runs his first test and hence save time.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Null/Undefined Analysis&lt;/h3&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;/div&gt;The N4JS IDE provides static analyses to indicate problems when it detects a property access on a variable which can be null or undefined. The analysis considers all assignments that occur either through a simple assignment expression or via destructuring. Loops, conditional expressions (e.g. &lt;span&gt;i = c? 1 : 0;&lt;/span&gt;) and declaration initializers are respected as well.&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://4.bp.blogspot.com/-2MLOhdP3dEk/W3_Cnrj20zI/AAAAAAAAAIU/VD7GMOKA5RkedjFYi2nhKfW2pHKtn2BLACEwYBhgL/s1600/N4JS-IDE.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://4.bp.blogspot.com/-2MLOhdP3dEk/W3_Cnrj20zI/AAAAAAAAAIU/VD7GMOKA5RkedjFYi2nhKfW2pHKtn2BLACEwYBhgL/s1600/N4JS-IDE.png&quot; width=&quot;570&quot; /&gt;&lt;/a&gt;&lt;/div&gt;The screenshot above shows a first example where a potential TypeError is detected. Since there exists at least one control flow from &lt;span&gt;v.length&lt;/span&gt; backwards to all reachable definitions of &lt;span&gt;v&lt;/span&gt;,  such that one definition assigns null or undefined to &lt;span&gt;v&lt;/span&gt;, a warning is issued telling that &lt;span&gt;v&lt;/span&gt; may be undefined.&lt;br /&gt;&lt;br /&gt;To make sure that the analysis will produce fast results, it is implemented within some limitations. One is that the analysis is done separately for each body of a function, method, etc. (i.e. &lt;i&gt;intra-procedural&lt;/i&gt; analysis). Hence it lacks knowledge of variables that cross the borders of these bodies such as the return value of a nested function call. In addition, property variables (such as &lt;span&gt;v.length&lt;/span&gt;) are not analyzed since this would require the analysis to be context sensitive to the receiver object (here &lt;span&gt;v&lt;/span&gt;). However, these limitations are common for static analyses of statically typed languages and still allow to detect many problems regarding local variables and parameters.&lt;br /&gt;&lt;br /&gt;Usually, the analysis makes optimistic assumptions. For instance it can happen that a local variable receives the value of a method call or another non-local variable. In this situation the analysis assumes this value is neither null nor undefined. The same is true for function parameters. Only when there are distinct indications in the source code for a value of a local variable to be null or undefined, the analysis will issue a warning.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Guards&lt;/h3&gt;&lt;h3&gt; &lt;/h3&gt;Sometimes the programmer knows that a variable may be null or undefined and hence checks the variable explicitly, for instance using &lt;span&gt;if (v) {...}&lt;/span&gt;. As a result this check disables the warning in the then-branch that complies to the execution semantics.&lt;br /&gt;&lt;br /&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://2.bp.blogspot.com/-Pjtv74Dim8U/W3_CntUSe0I/AAAAAAAAAIM/ECKOxqI2d2khOrBgcpxIva02wlkcAtnhACEwYBhgL/s1600/No_Warning.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://2.bp.blogspot.com/-Pjtv74Dim8U/W3_CntUSe0I/AAAAAAAAAIM/ECKOxqI2d2khOrBgcpxIva02wlkcAtnhACEwYBhgL/s1600/No_Warning.png&quot; width=&quot;570&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&lt;br /&gt;&lt;br /&gt;As shown in the screenshot above, neither at the expression &lt;span&gt;w.length &amp;lt; 1&lt;/span&gt; nor at the statement &lt;span&gt;return w.length&lt;/span&gt;; a warning is shown. Of course, the else-branch of such a check would consequently always indicate a warning when a property of variable &lt;span&gt;v&lt;/span&gt; is accessed. Checks for conditional expressions and binary logical expressions (e.g. &lt;span&gt;v &amp;amp;&amp;amp; v.length&lt;/span&gt;) are also supported. A reader might think: &quot;In case &lt;span&gt;w&lt;/span&gt; i&lt;span style=&quot;font-family: inherit;&quot;&gt;s null  the e&lt;/span&gt;xpression &lt;span&gt;w.length&lt;/span&gt; would fail.&quot; True, but in this example the analysis detects the value of &lt;span&gt;w&lt;/span&gt; being undefined. In ca&lt;span style=&quot;font-family: inherit;&quot;&gt;se null might&lt;/span&gt; have been assigned to &lt;span&gt;w&lt;/span&gt; e.g. in an if-condition before, the analysis will issue a warning of &lt;span&gt;w&lt;/span&gt; being null at the two &lt;span&gt;w.length&lt;/span&gt; expressions.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Data Flow&lt;/h3&gt;&lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;https://1.bp.blogspot.com/-y8LwrCo27Lw/W3_CnoC3pZI/AAAAAAAAAIQ/2B7jVp9SjqAqz-2TU1rg4gG3iDbdATlJgCEwYBhgL/s1600/Previous_Variable.png&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;https://1.bp.blogspot.com/-y8LwrCo27Lw/W3_CnoC3pZI/AAAAAAAAAIQ/2B7jVp9SjqAqz-2TU1rg4gG3iDbdATlJgCEwYBhgL/s1600/Previous_Variable.png&quot; width=&quot;570&quot; /&gt;&lt;/a&gt;&lt;/div&gt;There are situations where the value of a variable is null or undefined due to a previous assignment of a variable which may have been null or undefined before, like shown in the example above. Then, the null/undefined dereference problem occurs later when a property is accessed. Since the analysis respects data flow, it can follow the subsequent assignments. Hence a warning is shown at a property access indicating the null or undefined problem. Moreover, the warning also indicates the source of the null or undefined value which would be the variable &lt;span&gt;w&lt;/span&gt; in the example above.&lt;br /&gt;&lt;br /&gt;&lt;div style=&quot;text-align: left;&quot;&gt;The interested reader would find more details about the N4JS flow graphs and their implementation in the &lt;a href=&quot;https://github.com/eclipse/n4js/blob/master/docs/org.eclipse.n4js.design/chapters/10_flowgraphs/flowgraphs.adoc&quot; target=&quot;_blank&quot;&gt;N4JS Design Document, Chapter: Flow Graphs.&lt;/a&gt; &lt;/div&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;span style=&quot;font-size: x-small;&quot;&gt;by Marcus Mews&lt;/span&gt;&lt;/div&gt;</description>
+	<pubDate>Thu, 04 Jul 2019 13:00:20 +0000</pubDate>
+	<author>noreply@blogger.com (n4js dev)</author>
+</item>
+
+</channel>
+</rss>
