@@ -121,13 +121,13 @@ public class Flush {
 		String temp="";
 		int count = 0;
 		boolean value=false;
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<2;i++) {
 			temp = p[i][1];
-			for(int j=0;j<3;j++) {
-				if((i!=j)&&(p[j][1].equals(temp))) {
+			for(int j=0;j<2;j++) {
+				if(p[j][1].equals(temp)) {
 					count++;
 				}
-				if (count==2) value = true;
+				if (count>2) value = true;
 			}
 		}
 		return value;
@@ -137,13 +137,13 @@ public class Flush {
 		String temp="";
 		int count = 0;
 		boolean value=false;
-		for(int i=0;i<3;i++) {
-			temp = p[i][0].charAt(0)+"";
-			for(int j=0;j<3;j++) {
-				if((i!=j)&&((p[j][0].charAt(0)+"").equals(temp))) {
+		for(int i=0;i<2;i++) {
+			temp = p[0][i].charAt(0)+"";
+			for(int j=0;j<2;j++) {
+				if((p[0][j].charAt(0)+"").equals(temp)) {
 					count++;
 				}
-				if (count==3) value = true;
+				if (count>3) value = true;
 			}
 		}
 		return value;
@@ -155,20 +155,7 @@ public class Flush {
 		return true;
 	}
 	public static boolean tripleCheck(String p[][]) {
-		String temp="";
-		int count = 0;
-		boolean value=false;
-		for(int i=0;i<3;i++) {
-			temp = p[i][1];
-			for(int j=0;j<3;j++) {
-				if((i!=j)&&(p[j][1].equals(temp))) {
-					count++;
-				}
-				if (count==3) value = true;
-			}
-		}
-		return value;
-		
+		return true;
 	}
 	public static boolean DTop(String p[][]) {
 		return true;
