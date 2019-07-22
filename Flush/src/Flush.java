@@ -114,8 +114,25 @@ public class Flush {
 		
 		return p;
 	}
-	
-	
+	public static boolean doubleCheck(String p[][]){
+		return true;
+		
+	}
+	public static boolean colorCheck(String p[][]) {
+		return true;
+	}
+	public static boolean runCheck(String p[][]) {
+		return true;
+	}
+	public static boolean doublyCheck(String p[][]) {
+		return true;
+	}
+	public static boolean tripleCheck(String p[][]) {
+		return true;
+	}
+	public static boolean DTop(String p[][]) {
+		return true;
+	}
 	}
 	/*
  outline for the program
