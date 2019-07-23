@@ -45,6 +45,47 @@ public class Flush {
 	if (p1rank>p2rank) System.out.println("Player1 wins");
 	else System.out.println("Player2 wins");
 	
+	
+	
+	
+	
+		/*
+		
+		
+		System.out.println("Sorting...");
+		
+		
+		
+		System.out.println("Player1");
+		for (int i=0; i<3; i++){
+			for (int j=0;j<2;j++){
+				System.out.print(player1[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("Player2");
+		for (int i=0; i<3; i++){
+			for (int j=0;j<2;j++){
+				System.out.print(player2[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("Player 1 double  = "+ doubleCheck(player1));
+		System.out.println("Player 2 double  = "+ doubleCheck(player2));
+		
+		System.out.println("Player 1 color  = "+ colorCheck(player1));
+		System.out.println("Player 2 color  = "+ colorCheck(player2));
+
+		System.out.println("Player 1 triple  = "+ tripleCheck(player1));
+		System.out.println("Player 2 triple  = "+ tripleCheck(player2));
+		
+		System.out.println("Player 1 run  = "+ runCheck(player1));
+		System.out.println("Player 2 run  = "+ runCheck(player2));
+		if (DTop(player1,player2)) System.out.println("Player 1 has bigger top");
+		else System.out.println("Player2 has bigger top");
+		
+		*/
 	}
 	public static boolean PCheck(String P1[][], String P2[][]){
 		String [] cards = new String[6];
